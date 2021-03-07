@@ -12,6 +12,9 @@
 		DC168C4525F3C56700D9E1D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C4425F3C56700D9E1D4 /* ViewController.swift */; };
 		DC168C4A25F3C56800D9E1D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC168C4925F3C56800D9E1D4 /* Assets.xcassets */; };
 		DC168C4D25F3C56800D9E1D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC168C4B25F3C56800D9E1D4 /* LaunchScreen.storyboard */; };
+		DC168C5725F3D26600D9E1D4 /* UIView+layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C5625F3D26600D9E1D4 /* UIView+layout.swift */; };
+		DC168C5925F3D27800D9E1D4 /* UIStackView+verticalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C5825F3D27700D9E1D4 /* UIStackView+verticalStackView.swift */; };
+		DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		DC168C4925F3C56800D9E1D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC168C4C25F3C56800D9E1D4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DC168C4E25F3C56800D9E1D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC168C5625F3D26600D9E1D4 /* UIView+layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+layout.swift"; sourceTree = "<group>"; };
+		DC168C5825F3D27700D9E1D4 /* UIStackView+verticalStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+verticalStackView.swift"; sourceTree = "<group>"; };
+		DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+colorConstructor.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				DC168C4425F3C56700D9E1D4 /* ViewController.swift */,
+				DC168C5525F3D25600D9E1D4 /* Extensions */,
 				DC168C5425F3C57900D9E1D4 /* Supporting files */,
 				DC168C4E25F3C56800D9E1D4 /* Info.plist */,
 			);
@@ -70,6 +77,16 @@
 				DC168C4B25F3C56800D9E1D4 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		DC168C5525F3D25600D9E1D4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DC168C5625F3D26600D9E1D4 /* UIView+layout.swift */,
+				DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */,
+				DC168C5825F3D27700D9E1D4 /* UIStackView+verticalStackView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,9 +159,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC168C5725F3D26600D9E1D4 /* UIView+layout.swift in Sources */,
 				DC168C4525F3C56700D9E1D4 /* ViewController.swift in Sources */,
 				DC168C4125F3C56700D9E1D4 /* AppDelegate.swift in Sources */,
 				DC168C4325F3C56700D9E1D4 /* SceneDelegate.swift in Sources */,
+				DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */,
+				DC168C5925F3D27800D9E1D4 /* UIStackView+verticalStackView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
