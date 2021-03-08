@@ -7,17 +7,9 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController {
-
-  static func textField(placeholder: String) -> UITextField {
-    let textField = UITextField()
-    textField.placeholder = placeholder
-    textField.borderStyle = .roundedRect
-    textField.font = UIFont.preferredFont(forTextStyle: .body)
-    textField.backgroundColor = UIColor(white: 0.0, alpha: 0.03)
-    return textField
-  }
   
   var avatarButton: UIButton = {
     let button = UIButton(type: .system)
@@ -25,10 +17,10 @@ class ViewController: UIViewController {
     button.setImage(UIImage(named: "plus_photo"), for: .normal)
     return button
   }()
-  var emailTextField = ViewController.textField(placeholder: "Email")
-  var userNameTextField = ViewController.textField(placeholder: "Username")
-  var passwordTextField: UITextField = {
-    let textField = ViewController.textField(placeholder: "Password")
+  lazy var emailTextField = inputTextField(placeholder: "Email")
+  lazy var userNameTextField = inputTextField(placeholder: "Username")
+  lazy var passwordTextField: UITextField = {
+    let textField = inputTextField(placeholder: "Password")
     textField.isSecureTextEntry = true
     return textField
   }()
@@ -38,6 +30,8 @@ class ViewController: UIViewController {
     button.backgroundColor = UIColor(rgb: (149, 204, 244))
     button.layer.cornerRadius = 5
     button.tintColor = .white
+    button.isEnabled = false
+    button.addTarget(self, action: #selector(signUp), for: .touchUpInside)
     return button
   }()
   
@@ -48,6 +42,25 @@ class ViewController: UIViewController {
     setupViews()
   }
   
+  @objc func textChange() {
+    if emailTextField.text ?? "" != "" && userNameTextField.text ?? "" != "" && passwordTextField.text ?? ""  != "" {
+      signUpButton.isEnabled = true
+      signUpButton.backgroundColor = UIColor(rgb: (17, 154, 237))
+    } else {
+      signUpButton.isEnabled = false
+      signUpButton.backgroundColor = UIColor(rgb: (149, 204, 244))
+    }
+  }
+  
+  @objc func signUp() {
+    guard let email = emailTextField.text, email != "",
+      let userName = userNameTextField.text, userName != "",
+      let password = passwordTextField.text, password != "" else { return }
+    Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+      guard error == nil else { print("create user error: \(String(describing: error))"); return }
+      print("successfully create a user: \(authResult?.user.uid ?? "")")
+    }
+  }
   func setupViews() {
     view.backgroundColor = .systemBackground
     let inputStackView = UIStackView.verticalStack(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])
@@ -62,6 +75,16 @@ class ViewController: UIViewController {
       view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: signUpStackView.trailingAnchor, multiplier: 4.0),])
   }
 
+  func inputTextField(placeholder: String) -> UITextField {
+    let textField = UITextField()
+    textField.placeholder = placeholder
+    textField.borderStyle = .roundedRect
+    textField.font = UIFont.preferredFont(forTextStyle: .body)
+    textField.backgroundColor = UIColor(white: 0.0, alpha: 0.03)
+    textField.addTarget(self, action: #selector(textChange), for: .editingChanged)
+    return textField
+  }
+  
 
 }
 
