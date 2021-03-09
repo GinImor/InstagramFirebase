@@ -81,20 +81,21 @@ class ViewController: UIViewController {
             print("download url error: \(error)")
             return
           }
-          print("download url: \(url?.absoluteString ?? "")")
+          
+          if let profileImageUrl = url?.absoluteString {
+            let profileValue = ["username": username, "profileImageUrl": profileImageUrl]
+            let value = [uid: profileValue]
+            Database.database().reference().child("Users").updateChildValues(value) { (error, ref) in
+              if error != nil {
+                print("update chile values error: \(String(describing: error))")
+              } else {
+                print("successfully update database")
+              }
+            }
+          }
         })
       }
-     
-      let usernameValue = ["username": username]
-      let value = [uid: usernameValue]
-      Database.database().reference().child("Child").updateChildValues(value) { (error, ref) in
-        if error != nil {
-          print("update chile values error: \(String(describing: error))")
-        } else {
-          print("successfully update database")
-        }
-      }
-      
+    
     }
   }
   
