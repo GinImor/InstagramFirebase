@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,8 +15,8 @@
 		DC168C4D25F3C56800D9E1D4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC168C4B25F3C56800D9E1D4 /* LaunchScreen.storyboard */; };
 		DC168C5725F3D26600D9E1D4 /* UIView+layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C5625F3D26600D9E1D4 /* UIView+layout.swift */; };
 		DC168C5925F3D27800D9E1D4 /* UIStackView+verticalStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C5825F3D27700D9E1D4 /* UIStackView+verticalStackView.swift */; };
-		DC84281225F51EDE00D83B55 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC84281125F51EDE00D83B55 /* GoogleService-Info.plist */; };
 		DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */; };
+		DCBE223225F670A2000E3A4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCBE223125F670A2000E3A4F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +32,8 @@
 		DC168C4E25F3C56800D9E1D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC168C5625F3D26600D9E1D4 /* UIView+layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+layout.swift"; sourceTree = "<group>"; };
 		DC168C5825F3D27700D9E1D4 /* UIStackView+verticalStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+verticalStackView.swift"; sourceTree = "<group>"; };
-		DC84281125F51EDE00D83B55 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+colorConstructor.swift"; sourceTree = "<group>"; };
+		DCBE223125F670A2000E3A4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +54,6 @@
 				442D0C9A392F29E2430D7859 /* Pods-InstagramFirebase.debug.xcconfig */,
 				66066048BFB49B4F00E572F0 /* Pods-InstagramFirebase.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -91,7 +90,7 @@
 				DC168C5525F3D25600D9E1D4 /* Extensions */,
 				DC168C5425F3C57900D9E1D4 /* Supporting files */,
 				DC168C4E25F3C56800D9E1D4 /* Info.plist */,
-				DC84281125F51EDE00D83B55 /* GoogleService-Info.plist */,
+				DCBE223125F670A2000E3A4F /* GoogleService-Info.plist */,
 			);
 			path = InstagramFirebase;
 			sourceTree = "<group>";
@@ -179,7 +178,7 @@
 			files = (
 				DC168C4D25F3C56800D9E1D4 /* LaunchScreen.storyboard in Resources */,
 				DC168C4A25F3C56800D9E1D4 /* Assets.xcassets in Resources */,
-				DC84281225F51EDE00D83B55 /* GoogleService-Info.plist in Resources */,
+				DCBE223225F670A2000E3A4F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

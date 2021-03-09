@@ -13,8 +13,8 @@ class ViewController: UIViewController {
   
   var avatarButton: UIButton = {
     let button = UIButton(type: .system)
-    button.imageView?.contentMode = .scaleAspectFit
     button.setImage(UIImage(named: "plus_photo"), for: .normal)
+    button.addTarget(self, action: #selector(pickImage), for: .touchUpInside)
     return button
   }()
   lazy var emailTextField = inputTextField(placeholder: "Email")
@@ -35,11 +35,20 @@ class ViewController: UIViewController {
     return button
   }()
   
+  private var storage: StorageReference { Storage.storage().reference() }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     
     setupViews()
+  }
+  
+  @objc func pickImage() {
+    let imagePicker = UIImagePickerController()
+    imagePicker.delegate = self
+    
+    present(imagePicker, animated: true)
   }
   
   @objc func textChange() {
@@ -54,13 +63,41 @@ class ViewController: UIViewController {
   
   @objc func signUp() {
     guard let email = emailTextField.text, email != "",
-      let userName = userNameTextField.text, userName != "",
+      let username = userNameTextField.text, username != "",
       let password = passwordTextField.text, password != "" else { return }
+    
     Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
       guard error == nil else { print("create user error: \(String(describing: error))"); return }
-      print("successfully create a user: \(authResult?.user.uid ?? "")")
+      guard let uid = authResult?.user.uid, let image = self.avatarButton.image(for: .normal),
+        let imageData = image.jpegData(compressionQuality: 0.3) else { return }
+      let fileName = NSUUID().uuidString
+      let ref = self.storage.child("profile_images/\(fileName)")
+      ref.putData(imageData, metadata: nil) { (_, error) in
+        if let error = error {
+          print("put data error: \(error)")
+        }
+        ref.downloadURL(completion: { (url, error) in
+          if let error = error {
+            print("download url error: \(error)")
+            return
+          }
+          print("download url: \(url?.absoluteString ?? "")")
+        })
+      }
+     
+      let usernameValue = ["username": username]
+      let value = [uid: usernameValue]
+      Database.database().reference().child("Child").updateChildValues(value) { (error, ref) in
+        if error != nil {
+          print("update chile values error: \(String(describing: error))")
+        } else {
+          print("successfully update database")
+        }
+      }
+      
     }
   }
+  
   func setupViews() {
     view.backgroundColor = .systemBackground
     let inputStackView = UIStackView.verticalStack(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])
@@ -68,11 +105,22 @@ class ViewController: UIViewController {
     
     inputStackView.spacing = 2 * UIView.defaultPadding
     signUpStackView.spacing = 3 * UIView.defaultPadding
+    signUpStackView.alignment = .center
+    
     view.addSubview(signUpStackView)
     NSLayoutConstraint.activate([
+      avatarButton.widthAnchor.constraint(equalToConstant: 100),
+      avatarButton.heightAnchor.constraint(equalTo: avatarButton.widthAnchor, multiplier: 1.0),
+      
+      inputStackView.widthAnchor.constraint(equalTo: signUpStackView.widthAnchor, multiplier: 1.0),
+      
       signUpStackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0),
       signUpStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 4.0),
       view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: signUpStackView.trailingAnchor, multiplier: 4.0),])
+    
+    emailTextField.text = "Dumy@gmail.com"
+    userNameTextField.text = "Dumy"
+    passwordTextField.text = "123456"
   }
 
   func inputTextField(placeholder: String) -> UITextField {
@@ -86,5 +134,27 @@ class ViewController: UIViewController {
   }
   
 
+}
+
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    if let editedImage = info[.editedImage] as? UIImage {
+      avatarButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+    } else if let originalImage = info[.originalImage] as? UIImage {
+      avatarButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
+    setupAvatarButtonWithImage()
+    dismiss(animated: true)
+  }
+  
+  func setupAvatarButtonWithImage() {
+    if avatarButton.layer.borderWidth == 0.0 {
+      avatarButton.layer.cornerRadius = avatarButton.frame.width/2
+      avatarButton.layer.masksToBounds = true
+      avatarButton.layer.borderColor = UIColor.black.cgColor
+      avatarButton.layer.borderWidth = 3.0
+    }
+  }
 }
 
