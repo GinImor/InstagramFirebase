@@ -15,8 +15,34 @@ class UserProfileController: UICollectionViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupNavigationBar()
     setupCollectionView()
     fetchUserProfile()
+  }
+  
+  private func setupNavigationBar() {
+    let itemImage = UIImage(systemName: "gear")!
+    navigationItem.rightBarButtonItem = UIBarButtonItem(image: itemImage, style: .plain, target: self, action: #selector(showSetting))
+    
+    navigationController?.navigationBar.tintColor = .black
+  }
+  
+  @objc func showSetting() {
+    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    actionSheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
+      self.logout()
+    }))
+    
+    actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+    present(actionSheet, animated: true)
+  }
+  
+  private func logout() {
+    do {
+      try Auth.auth().signOut()
+    } catch {
+      print("sign out error: \(error)")
+    }
   }
   
   private func fetchUserProfile() {

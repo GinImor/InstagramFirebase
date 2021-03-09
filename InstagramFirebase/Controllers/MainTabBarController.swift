@@ -14,11 +14,25 @@ class MainTabBarController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupBarAppearance()
-    setupChildVCs()
+    setupViewControllerToShow()
   }
   
   private func setupBarAppearance() {
     tabBar.tintColor = .black
+  }
+  
+  private func setupViewControllerToShow() {
+    guard Auth.auth().currentUser != nil else {
+      DispatchQueue.main.async { self.setupLoginVC() }
+      return
+    }
+    setupChildVCs()
+  }
+  
+  private func setupLoginVC() {
+    let loginController = LoginController()
+    let nav = UINavigationController(rootViewController: loginController)
+    present(nav, animated: true)
   }
   
   private func setupChildVCs() {
@@ -29,7 +43,7 @@ class MainTabBarController: UITabBarController {
     
     viewControllers = [
       userProfileController.wrapInNav(tabBarImage: userProfileImage, selectedImage: userProfileSelectedImage),
-      ViewController()
+      SignUpController()
     ]
   }
 }
