@@ -29,14 +29,14 @@ extension UIView {
     return view
   }
   
-  func pinToSuperviewEdges() {
+  func pinToSuperviewEdges(edgeInsets: UIEdgeInsets = .zero) {
     guard let superview = superview else { return }
     disableTAMIC()
     NSLayoutConstraint.activate([
-      topAnchor.constraint(equalTo: superview.topAnchor),
-      leadingAnchor.constraint(equalTo: superview.leadingAnchor),
-      trailingAnchor.constraint(equalTo: superview.trailingAnchor),
-      bottomAnchor.constraint(equalTo: superview.bottomAnchor)
+      topAnchor.constraint(equalTo: superview.topAnchor, constant: edgeInsets.top),
+      leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: edgeInsets.left),
+      trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -edgeInsets.right),
+      bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -edgeInsets.bottom)
     ])
   }
   

@@ -35,7 +35,28 @@ class UserProfileController: UICollectionViewController {
   
   private func setupCollectionView() {
     collectionView.backgroundColor = .systemBackground
+    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: CellID.userProfileCell)
     collectionView.register(UserProfileHeadder.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier:CellID.userProfileHeader)
+    setupLayout()
+  }
+  
+  private func setupLayout() {
+    guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+    flowLayout.minimumInteritemSpacing = 1.0
+    flowLayout.minimumLineSpacing = 1.0
+    
+    let itemWidth = floor((collectionView.bounds.width - 2) / 3)
+    flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+  }
+  
+  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath)
+    cell.backgroundColor = .systemGray4
+    return cell
   }
   
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -50,6 +71,6 @@ class UserProfileController: UICollectionViewController {
 extension UserProfileController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: 200, height: 200)
+    return CGSize(width: 0, height: 200)
   }
 }

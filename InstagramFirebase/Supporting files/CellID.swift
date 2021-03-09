@@ -9,5 +9,6 @@
 import Foundation
 
 enum CellID {
+  static let userProfileCell = "userProfileCell"
   static let userProfileHeader = "userProfileHeader"
 }
