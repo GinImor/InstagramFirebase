@@ -40,8 +40,54 @@ class SignUpController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    
     setupViews()
+  }
+  
+  private func setupViews() {
+    view.backgroundColor = .systemBackground
+    setupSignUpStackView()
+    setupLoginMessage()
+  }
+
+  private func setupSignUpStackView() {
+    let inputStackView = UIStackView.verticalStack(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])
+    let signUpStackView = UIStackView.verticalStack(arrangedSubviews: [avatarButton, inputStackView])
+    
+    inputStackView.spacing = 2 * UIView.defaultPadding
+    signUpStackView.spacing = 3 * UIView.defaultPadding
+    signUpStackView.alignment = .center
+    
+    view.addSubview(signUpStackView)
+    NSLayoutConstraint.activate([
+      avatarButton.widthAnchor.constraint(equalToConstant: 100),
+      avatarButton.heightAnchor.constraint(equalTo: avatarButton.widthAnchor, multiplier: 1.0),
+      
+      inputStackView.widthAnchor.constraint(equalTo: signUpStackView.widthAnchor, multiplier: 1.0),
+      
+      signUpStackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0),
+      signUpStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 4.0),
+      view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: signUpStackView.trailingAnchor, multiplier: 4.0),])
+    
+    emailTextField.text = "Dumy@gmail.com"
+    userNameTextField.text = "Dumy"
+    passwordTextField.text = "123456"
+  }
+  
+  private func setupLoginMessage() {
+    let signUpLabel = UILabel()
+    let signUpButton = UIButton(type: .system)
+    let signUpStack = UIStackView(arrangedSubviews: [signUpLabel, signUpButton])
+    signUpLabel.text = "Already have an account?"
+    signUpButton.setTitle("Login", for: .normal)
+    signUpButton.setTitleColor(UIColor(rgb: (17, 154, 237)), for: .normal)
+    signUpButton.addTarget(self, action: #selector(showLogin), for: .touchUpInside)
+    signUpStack.spacing = 8
+    signUpStack.disableTAMIC()
+    view.addSubview(signUpStack)
+    NSLayoutConstraint.activate([
+      signUpStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      signUpStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+    ])
   }
   
   @objc func pickImage() {
@@ -99,31 +145,10 @@ class SignUpController: UIViewController {
     }
   }
   
-  func setupViews() {
-    view.backgroundColor = .systemBackground
-    let inputStackView = UIStackView.verticalStack(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])
-    let signUpStackView = UIStackView.verticalStack(arrangedSubviews: [avatarButton, inputStackView])
-    
-    inputStackView.spacing = 2 * UIView.defaultPadding
-    signUpStackView.spacing = 3 * UIView.defaultPadding
-    signUpStackView.alignment = .center
-    
-    view.addSubview(signUpStackView)
-    NSLayoutConstraint.activate([
-      avatarButton.widthAnchor.constraint(equalToConstant: 100),
-      avatarButton.heightAnchor.constraint(equalTo: avatarButton.widthAnchor, multiplier: 1.0),
-      
-      inputStackView.widthAnchor.constraint(equalTo: signUpStackView.widthAnchor, multiplier: 1.0),
-      
-      signUpStackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4.0),
-      signUpStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 4.0),
-      view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: signUpStackView.trailingAnchor, multiplier: 4.0),])
-    
-    emailTextField.text = "Dumy@gmail.com"
-    userNameTextField.text = "Dumy"
-    passwordTextField.text = "123456"
+  @objc func showLogin() {
+    navigationController?.popViewController(animated: true)
   }
-
+  
   func inputTextField(placeholder: String) -> UITextField {
     let textField = UITextField()
     textField.placeholder = placeholder
