@@ -29,7 +29,8 @@ extension UIView {
     return view
   }
   
-  func pinToSuperviewEdges(edgeInsets: UIEdgeInsets = .zero) {
+  func pinToSuperviewEdges(edgeInsets: UIEdgeInsets = .zero, pinnedView: UIView? = nil) {
+    pinnedView?.addSubview(self)
     guard let superview = superview else { return }
     disableTAMIC()
     NSLayoutConstraint.activate([

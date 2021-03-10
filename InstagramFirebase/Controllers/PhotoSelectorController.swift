@@ -7,13 +7,17 @@
 //
 
 import UIKit
+import Photos
 
 class PhotoSelectorController: UICollectionViewController {
+  
+  var images = [UIImage]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     setupNavigationBar()
     setupCollectionView()
+    fetchPhotos()
   }
   
   private func setupNavigationBar() {
@@ -23,7 +27,7 @@ class PhotoSelectorController: UICollectionViewController {
   
   private func setupCollectionView() {
     collectionView.backgroundColor = .systemBackground
-    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: CellID.photoSelectorCell)
+    collectionView.register(PhotoSelectorCell.self, forCellWithReuseIdentifier: CellID.photoSelectorCell)
     collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.photoSelectorHeader)
     setupLayout()
   }
@@ -39,6 +43,39 @@ class PhotoSelectorController: UICollectionViewController {
     flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
   }
   
+  private func fetchPhotos() {
+    let fetchOption = PHFetchOptions()
+    fetchOption.fetchLimit = 10
+    fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+    PHPhotoLibrary.shared().register(self)
+    
+    PHPhotoLibrary.requestAuthorization { (status) in
+      switch status {
+      case .authorized:
+        let fetchedImageAssets = PHAsset.fetchAssets(with: .image, options: fetchOption)
+        fetchedImageAssets.enumerateObjects { (phAsset, index, stop) in
+          let imageRequestOptions = PHImageRequestOptions()
+          imageRequestOptions.isSynchronous = true
+          PHImageManager.default().requestImage(
+            for: phAsset,
+            targetSize: CGSize(width: 350, height: 350),
+            contentMode: .aspectFit,
+            options: imageRequestOptions) { (image, info) in
+              guard let image = image else { return }
+              self.images.append(image)
+              if index == fetchedImageAssets.count - 1 {
+                DispatchQueue.main.async {
+                  print("fetch successfully")
+                  self.collectionView.reloadData()
+                }
+              }
+          }
+      }
+      default: ()
+      }
+    }
+  }
+  
   @objc func cancel() {
     presentingViewController?.dismiss(animated: true)
   }
@@ -48,13 +85,13 @@ class PhotoSelectorController: UICollectionViewController {
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return images.count
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.photoSelectorCell, for: indexPath)
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.photoSelectorCell, for: indexPath) as! PhotoSelectorCell
     
-    cell.backgroundColor = .systemGray4
+    cell.imageView.image = images[indexPath.item]
     return cell
   }
   
@@ -62,5 +99,12 @@ class PhotoSelectorController: UICollectionViewController {
     let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.photoSelectorHeader, for: indexPath)
     cell.backgroundColor = .black
     return cell
+  }
+}
+
+extension PhotoSelectorController: PHPhotoLibraryChangeObserver {
+  
+  func photoLibraryDidChange(_ changeInstance: PHChange) {
+    
   }
 }
