@@ -12,6 +12,7 @@ import Photos
 class PhotoSelectorController: UICollectionViewController {
   
   var images = [UIImage]()
+  var assets = [PHAsset]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,7 +29,7 @@ class PhotoSelectorController: UICollectionViewController {
   private func setupCollectionView() {
     collectionView.backgroundColor = .systemBackground
     collectionView.register(PhotoSelectorCell.self, forCellWithReuseIdentifier: CellID.photoSelectorCell)
-    collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.photoSelectorHeader)
+    collectionView.register(PhotoSelectorHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.photoSelectorHeader)
     setupLayout()
   }
   
@@ -58,11 +59,17 @@ class PhotoSelectorController: UICollectionViewController {
           imageRequestOptions.isSynchronous = true
           PHImageManager.default().requestImage(
             for: phAsset,
-            targetSize: CGSize(width: 350, height: 350),
+            targetSize: CGSize(width: 200, height: 200),
             contentMode: .aspectFit,
             options: imageRequestOptions) { (image, info) in
               guard let image = image else { return }
               self.images.append(image)
+              self.assets.append(phAsset)
+              
+              if self.selectedIndex == nil {
+                self.selectedIndex = 0
+              }
+              
               if index == fetchedImageAssets.count - 1 {
                 DispatchQueue.main.async {
                   print("fetch successfully")
@@ -96,10 +103,28 @@ class PhotoSelectorController: UICollectionViewController {
   }
   
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.photoSelectorHeader, for: indexPath)
-    cell.backgroundColor = .black
+    let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.photoSelectorHeader, for: indexPath) as! PhotoSelectorHeader
+    if let selectedIndex = selectedIndex {
+      cell.imageView.image = images[selectedIndex]
+      
+      PHImageManager.default().requestImage(for: assets[selectedIndex], targetSize: CGSize(width: 2000, height: 2000), contentMode: .default, options: nil) { (image, info) in
+        guard let image = image else { return }
+        if self.selectedIndex == selectedIndex {
+          cell.imageView.image = image
+        }
+      }
+    }
     return cell
   }
+  
+  var selectedIndex: Int?
+  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard selectedIndex != indexPath.item else { return }
+    selectedIndex = indexPath.item
+    collectionView.reloadData()
+    collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+  }
+  
 }
 
 extension PhotoSelectorController: PHPhotoLibraryChangeObserver {

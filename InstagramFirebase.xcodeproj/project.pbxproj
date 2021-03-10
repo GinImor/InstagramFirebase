@@ -14,6 +14,7 @@
 		DC0BB25D25F7345200F7FE5E /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BB25C25F7345200F7FE5E /* UserProfileHeader.swift */; };
 		DC0BB25F25F736A400F7FE5E /* CellID.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BB25E25F736A400F7FE5E /* CellID.swift */; };
 		DC0BB26225F7390000F7FE5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0BB26125F7390000F7FE5E /* User.swift */; };
+		DC101D2725F908AF00626833 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC101D2625F908AF00626833 /* PhotoSelectorHeader.swift */; };
 		DC168C4125F3C56700D9E1D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C4025F3C56700D9E1D4 /* AppDelegate.swift */; };
 		DC168C4325F3C56700D9E1D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C4225F3C56700D9E1D4 /* SceneDelegate.swift */; };
 		DC168C4525F3C56700D9E1D4 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C4425F3C56700D9E1D4 /* SignUpController.swift */; };
@@ -39,6 +40,7 @@
 		DC0BB25C25F7345200F7FE5E /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
 		DC0BB25E25F736A400F7FE5E /* CellID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellID.swift; sourceTree = "<group>"; };
 		DC0BB26125F7390000F7FE5E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		DC101D2625F908AF00626833 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
 		DC168C3D25F3C56700D9E1D4 /* InstagramFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramFirebase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC168C4025F3C56700D9E1D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC168C4225F3C56700D9E1D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				DC0BB25C25F7345200F7FE5E /* UserProfileHeader.swift */,
 				DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */,
+				DC101D2625F908AF00626833 /* PhotoSelectorHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				DC0BB25525F714BE00F7FE5E /* MainTabBarController.swift in Sources */,
 				DC1E1F9225F7618E00A99BA1 /* UIView+onesideBorder.swift in Sources */,
 				DC168C4325F3C56700D9E1D4 /* SceneDelegate.swift in Sources */,
+				DC101D2725F908AF00626833 /* PhotoSelectorHeader.swift in Sources */,
 				DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */,
 				DC88673025F8A03A00C92257 /* PhotoSelectorCell.swift in Sources */,
 				DC0BB26225F7390000F7FE5E /* User.swift in Sources */,

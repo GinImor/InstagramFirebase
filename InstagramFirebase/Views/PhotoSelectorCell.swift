@@ -27,7 +27,7 @@ class PhotoSelectorCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func setup() {
+  func setup() {
     imageView.pinToSuperviewEdges(pinnedView: self)
   }
   
