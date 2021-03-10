@@ -11,4 +11,6 @@ import Foundation
 enum CellID {
   static let userProfileCell = "userProfileCell"
   static let userProfileHeader = "userProfileHeader"
+  static let photoSelectorCell = "photoSelectorCell"
+  static let photoSelectorHeader = "photoSelectorHeader"
 }

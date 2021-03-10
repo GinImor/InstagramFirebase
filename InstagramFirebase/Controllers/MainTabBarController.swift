@@ -23,6 +23,7 @@ class MainTabBarController: UITabBarController {
   }
   
   private func setupNotification() {
+    delegate = self
     NotificationCenter.default.addObserver(forName: .didLoginInstagramUser, object: nil, queue: .main) { (_) in
       self.setupChildVCs()
     }
@@ -74,3 +75,15 @@ class MainTabBarController: UITabBarController {
   }
 }
  
+extension MainTabBarController: UITabBarControllerDelegate {
+  
+  func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    if viewControllers?.firstIndex(of: viewController)! == 2 {
+      let photoSelectorController = PhotoSelectorController(collectionViewLayout: UICollectionViewFlowLayout())
+      let nav = UINavigationController(rootViewController: photoSelectorController)
+      present(nav, animated: true)
+      return false
+    }
+    return true
+  }
+}
