@@ -40,6 +40,9 @@ class UserProfileController: UICollectionViewController {
   private func logout() {
     do {
       try Auth.auth().signOut()
+      let loginController = LoginController()
+      let nav = UINavigationController(rootViewController: loginController)
+      present(nav, animated: true)
     } catch {
       print("sign out error: \(error)")
     }

@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import Firebase
+
+extension Notification.Name {
+  static let didLoginInstagramUser = Notification.Name(rawValue: "didLoginInstagramUser")
+}
 
 class LoginController: UIViewController {
   
@@ -32,7 +37,7 @@ class LoginController: UIViewController {
     button.layer.cornerRadius = 5
     button.tintColor = .white
     button.isEnabled = false
-//    button.addTarget(self, action: #selector(signUp), for: .touchUpInside)
+    button.addTarget(self, action: #selector(login), for: .touchUpInside)
     return button
   }()
   
@@ -71,23 +76,48 @@ class LoginController: UIViewController {
       inputStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.safeAreaLayoutGuide.leadingAnchor, multiplier: 4.0),
       view.safeAreaLayoutGuide.trailingAnchor.constraint(equalToSystemSpacingAfter: inputStackView.trailingAnchor, multiplier: 4.0)
     ])
+    emailTextField.text = "Dumy@gmail.com"
+    passwordTextField.text = "123456"
   }
   
   private func setupSignUpMessage() {
-    let signUpLabel = UILabel()
-    let signUpButton = UIButton(type: .system)
-    let signUpStack = UIStackView(arrangedSubviews: [signUpLabel, signUpButton])
-    signUpLabel.text = "Doesn't have an account yet?"
-    signUpButton.setTitle("Sign Up", for: .normal)
-    signUpButton.setTitleColor(UIColor(rgb: (17, 154, 237)), for: .normal)
-    signUpButton.addTarget(self, action: #selector(showSignUp), for: .touchUpInside)
-    signUpStack.spacing = 8
-    signUpStack.disableTAMIC()
-    view.addSubview(signUpStack)
+    let signUpMessageLabel = UILabel()
+    let signUpMessageButton = UIButton(type: .system)
+    let signUpMessageStack = UIStackView(arrangedSubviews: [signUpMessageLabel, signUpMessageButton])
+    signUpMessageLabel.text = "Doesn't have an account yet?"
+    signUpMessageButton.setTitle("Sign Up", for: .normal)
+    signUpMessageButton.setTitleColor(UIColor(rgb: (17, 154, 237)), for: .normal)
+    signUpMessageButton.addTarget(self, action: #selector(showSignUp), for: .touchUpInside)
+    signUpMessageStack.spacing = 8
+    signUpMessageStack.disableTAMIC()
+    view.addSubview(signUpMessageStack)
     NSLayoutConstraint.activate([
-      signUpStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      signUpStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+      signUpMessageStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      signUpMessageStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
     ])
+  }
+  
+  @objc func login() {
+    guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+    Auth.auth().signIn(withEmail: email, password: password) { (dataResult, error) in
+      guard error == nil else {
+        print("sign in error: \(String(describing: error))")
+        return
+      }
+      guard let _ = dataResult else { return }
+      NotificationCenter.default.post(name: .didLoginInstagramUser, object: nil)
+      self.presentingViewController?.dismiss(animated: true)
+    }
+  }
+  
+  @objc func textChange() {
+    if emailTextField.text ?? "" != "" && passwordTextField.text ?? ""  != "" {
+      loginButton.isEnabled = true
+      loginButton.backgroundColor = UIColor(rgb: (17, 154, 237))
+    } else {
+      loginButton.isEnabled = false
+      loginButton.backgroundColor = UIColor(rgb: (149, 204, 244))
+    }
   }
   
   @objc func showSignUp() {
@@ -101,7 +131,7 @@ class LoginController: UIViewController {
     textField.borderStyle = .roundedRect
     textField.font = UIFont.preferredFont(forTextStyle: .body)
     textField.backgroundColor = UIColor(white: 0.0, alpha: 0.03)
-//    textField.addTarget(self, action: #selector(textChange), for: .editingChanged)
+    textField.addTarget(self, action: #selector(textChange), for: .editingChanged)
     return textField
   }
   

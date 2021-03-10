@@ -14,11 +14,18 @@ class MainTabBarController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setupBarAppearance()
+    setupNotification()
     setupViewControllerToShow()
   }
   
   private func setupBarAppearance() {
     tabBar.tintColor = .black
+  }
+  
+  private func setupNotification() {
+    NotificationCenter.default.addObserver(forName: .didLoginInstagramUser, object: nil, queue: .main) { (_) in
+      self.setupChildVCs()
+    }
   }
   
   private func setupViewControllerToShow() {

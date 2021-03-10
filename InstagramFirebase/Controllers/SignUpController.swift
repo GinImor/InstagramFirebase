@@ -74,19 +74,19 @@ class SignUpController: UIViewController {
   }
   
   private func setupLoginMessage() {
-    let signUpLabel = UILabel()
-    let signUpButton = UIButton(type: .system)
-    let signUpStack = UIStackView(arrangedSubviews: [signUpLabel, signUpButton])
-    signUpLabel.text = "Already have an account?"
-    signUpButton.setTitle("Login", for: .normal)
-    signUpButton.setTitleColor(UIColor(rgb: (17, 154, 237)), for: .normal)
-    signUpButton.addTarget(self, action: #selector(showLogin), for: .touchUpInside)
-    signUpStack.spacing = 8
-    signUpStack.disableTAMIC()
-    view.addSubview(signUpStack)
+    let loginMessageLabel = UILabel()
+    let loginMessageButton = UIButton(type: .system)
+    let loginMessageStack = UIStackView(arrangedSubviews: [loginMessageLabel, loginMessageButton])
+    loginMessageLabel.text = "Already have an account?"
+    loginMessageButton.setTitle("Login", for: .normal)
+    loginMessageButton.setTitleColor(UIColor(rgb: (17, 154, 237)), for: .normal)
+    loginMessageButton.addTarget(self, action: #selector(showLogin), for: .touchUpInside)
+    loginMessageStack.spacing = 8
+    loginMessageStack.disableTAMIC()
+    view.addSubview(loginMessageStack)
     NSLayoutConstraint.activate([
-      signUpStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      signUpStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+      loginMessageStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      loginMessageStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
     ])
   }
   
@@ -135,7 +135,8 @@ class SignUpController: UIViewController {
               if error != nil {
                 print("update chile values error: \(String(describing: error))")
               } else {
-                print("successfully update database")
+                NotificationCenter.default.post(name: .didLoginInstagramUser, object: nil)
+                self.navigationController?.popViewController(animated: true)
               }
             }
           }
