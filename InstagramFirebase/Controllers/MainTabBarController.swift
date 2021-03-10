@@ -43,14 +43,34 @@ class MainTabBarController: UITabBarController {
   }
   
   private func setupChildVCs() {
+    let homeImage = UIImage(systemName: "house")!
+    let homeSelectedImage = UIImage(systemName: "house.fill")!
+    let homeController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+    
+    let searchImage = UIImage(systemName: "magnifyingglass.circle")!
+    let searchSelectedImage = UIImage(systemName: "magnifyingglass.circle.fill")!
+    let searchController = UIViewController()
+    
+    let plusImage = UIImage(systemName: "plus.square")!
+    let plusSelectedImage = UIImage(systemName: "plus.square.fill")!
+    let plusController = UIViewController()
+    
+    let likeImage = UIImage(systemName: "heart.circle")!
+    let likeSelectedImage = UIImage(systemName: "heart.circle.fill")!
+    let likeController = UIViewController()
+    
     let flowLayout = UICollectionViewFlowLayout()
-    let userProfileController = UserProfileController(collectionViewLayout: flowLayout)
     let userProfileImage = UIImage(systemName: "person")!
     let userProfileSelectedImage = UIImage(systemName: "person.fill")!
+    let userProfileController = UserProfileController(collectionViewLayout: flowLayout)
     
     viewControllers = [
-      userProfileController.wrapInNav(tabBarImage: userProfileImage, selectedImage: userProfileSelectedImage),
-      SignUpController()
+      homeController.wrapInNav(tabBarImage: homeImage, selectedImage: homeSelectedImage),
+      searchController.wrapInNav(tabBarImage: searchImage, selectedImage: searchSelectedImage),
+      plusController.wrapInNav(tabBarImage: plusImage, selectedImage: plusSelectedImage),
+      likeController.wrapInNav(tabBarImage: likeImage, selectedImage: likeSelectedImage),
+      userProfileController.wrapInNav(tabBarImage: userProfileImage, selectedImage: userProfileSelectedImage)
     ]
   }
 }
+ 

@@ -74,7 +74,7 @@ class UserProfileHeadder: UICollectionViewCell {
     UIStackView.verticalStack(
       arrangedSubviews: [contentStack, displayModeStack()],
       pinToSuperview: self,
-      edgeInsets: UIEdgeInsets(top: UIView.defaultPadding, left: 0, bottom: 0, right: 0)
+      edgeInsets: UIEdgeInsets(top: 2 * UIView.defaultPadding, left: 0, bottom: 0, right: 0)
     )
     
     contentStack.isLayoutMarginsRelativeArrangement = true
