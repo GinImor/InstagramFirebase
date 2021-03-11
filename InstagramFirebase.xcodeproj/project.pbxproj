@@ -25,6 +25,8 @@
 		DC1E1F9225F7618E00A99BA1 /* UIView+onesideBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */; };
 		DC1E1F9425F7A35400A99BA1 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9325F7A35400A99BA1 /* LoginController.swift */; };
 		DC766B4325F9A64C0051EA14 /* PostPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */; };
+		DC766B4525F9D8410051EA14 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4425F9D8410051EA14 /* Post.swift */; };
+		DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */; };
 		DC88672E25F879E900C92257 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672D25F879E900C92257 /* PhotoSelectorController.swift */; };
 		DC88673025F8A03A00C92257 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */; };
 		DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */; };
@@ -54,6 +56,8 @@
 		DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+onesideBorder.swift"; sourceTree = "<group>"; };
 		DC1E1F9325F7A35400A99BA1 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPhotoController.swift; sourceTree = "<group>"; };
+		DC766B4425F9D8410051EA14 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
 		DC88672D25F879E900C92257 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+colorConstructor.swift"; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				DC0BB25C25F7345200F7FE5E /* UserProfileHeader.swift */,
+				DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */,
 				DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */,
 				DC101D2625F908AF00626833 /* PhotoSelectorHeader.swift */,
 			);
@@ -116,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				DC0BB26125F7390000F7FE5E /* User.swift */,
+				DC766B4425F9D8410051EA14 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -155,11 +161,11 @@
 		DC168C5425F3C57900D9E1D4 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				DC0BB25E25F736A400F7FE5E /* CellID.swift */,
 				DC168C4025F3C56700D9E1D4 /* AppDelegate.swift */,
 				DC168C4225F3C56700D9E1D4 /* SceneDelegate.swift */,
 				DC168C4925F3C56800D9E1D4 /* Assets.xcassets */,
 				DC168C4B25F3C56800D9E1D4 /* LaunchScreen.storyboard */,
-				DC0BB25E25F736A400F7FE5E /* CellID.swift */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -307,6 +313,8 @@
 				DC0BB26225F7390000F7FE5E /* User.swift in Sources */,
 				DC0BB25D25F7345200F7FE5E /* UserProfileHeader.swift in Sources */,
 				DC168C5925F3D27800D9E1D4 /* UIStackView+predefinedStackView.swift in Sources */,
+				DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */,
+				DC766B4525F9D8410051EA14 /* Post.swift in Sources */,
 				DC0BB25A25F7165600F7FE5E /* UIViewController+navInTabBar.swift in Sources */,
 				DC1E1F9425F7A35400A99BA1 /* LoginController.swift in Sources */,
 			);

@@ -11,6 +11,7 @@ import Firebase
 
 class UserProfileController: UICollectionViewController {
   
+  var posts: [Post] = []
   private var user: User?
   
   override func viewDidLoad() {
@@ -18,6 +19,7 @@ class UserProfileController: UICollectionViewController {
     setupNavigationBar()
     setupCollectionView()
     fetchUserProfile()
+    fetchUserPosts()
   }
   
   private func setupNavigationBar() {
@@ -56,15 +58,32 @@ class UserProfileController: UICollectionViewController {
       
       self.user = User(dic: snapshotDic)
       self.navigationItem.title = self.user?.username
-      self.collectionView.reloadData()
     }) { (error) in
       print("error happen: \(error)")
     }
   }
   
+  private func fetchUserPosts() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    let postRef = Database.database().reference().child("Posts/\(uid)")
+    postRef.observeSingleEvent(of: .value, with: { (snapshot) in
+      print("user post snapshot value: \(String(describing: snapshot.value))")
+      guard let allPosts = snapshot.value as? [String: Any] else { return }
+      self.posts = allPosts.values.compactMap {
+        guard let postMetaData = $0 as? [String: Any] else { return nil }
+        let post = Post(postDic: postMetaData)
+        print("post image url: \(post.imageUrl)")
+        return post
+      }
+      self.collectionView.reloadData()
+    }) { (error) in
+      print("user profile fetch posts error: \(error)")
+    }
+  }
+  
   private func setupCollectionView() {
     collectionView.backgroundColor = .systemBackground
-    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: CellID.userProfileCell)
+    collectionView.register(UserProfileCell.self, forCellWithReuseIdentifier: CellID.userProfileCell)
     collectionView.register(UserProfileHeadder.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier:CellID.userProfileHeader)
     setupLayout()
   }
@@ -79,18 +98,17 @@ class UserProfileController: UICollectionViewController {
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    return posts.count
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath)
-    cell.backgroundColor = .systemGray4
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath) as! UserProfileCell
+    cell.post = posts[indexPath.item]
     return cell
   }
   
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.userProfileHeader, for: indexPath) as! UserProfileHeadder
-    
     header.user = user
     return header
   }
