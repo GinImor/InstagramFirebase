@@ -46,7 +46,7 @@ class MainTabBarController: UITabBarController {
   private func setupChildVCs() {
     let homeImage = UIImage(systemName: "house")!
     let homeSelectedImage = UIImage(systemName: "house.fill")!
-    let homeController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+    let homeController = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
     
     let searchImage = UIImage(systemName: "magnifyingglass.circle")!
     let searchSelectedImage = UIImage(systemName: "magnifyingglass.circle.fill")!

@@ -28,6 +28,9 @@
 		DC766B4525F9D8410051EA14 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4425F9D8410051EA14 /* Post.swift */; };
 		DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */; };
 		DC766B4925FA04BE0051EA14 /* ImageFetcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4825FA04BE0051EA14 /* ImageFetcherView.swift */; };
+		DC766B4B25FA15DD0051EA14 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4A25FA15DD0051EA14 /* HomeController.swift */; };
+		DC766B4D25FA169D0051EA14 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4C25FA169D0051EA14 /* HomeCell.swift */; };
+		DC766B5025FA1D170051EA14 /* InstagramFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4F25FA1D170051EA14 /* InstagramFileManager.swift */; };
 		DC88672E25F879E900C92257 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672D25F879E900C92257 /* PhotoSelectorController.swift */; };
 		DC88673025F8A03A00C92257 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */; };
 		DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */; };
@@ -60,6 +63,9 @@
 		DC766B4425F9D8410051EA14 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
 		DC766B4825FA04BE0051EA14 /* ImageFetcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcherView.swift; sourceTree = "<group>"; };
+		DC766B4A25FA15DD0051EA14 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		DC766B4C25FA169D0051EA14 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
+		DC766B4F25FA1D170051EA14 /* InstagramFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramFileManager.swift; sourceTree = "<group>"; };
 		DC88672D25F879E900C92257 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+colorConstructor.swift"; sourceTree = "<group>"; };
@@ -104,6 +110,7 @@
 				DC1E1F9325F7A35400A99BA1 /* LoginController.swift */,
 				DC88672D25F879E900C92257 /* PhotoSelectorController.swift */,
 				DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */,
+				DC766B4A25FA15DD0051EA14 /* HomeController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -116,6 +123,7 @@
 				DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */,
 				DC101D2625F908AF00626833 /* PhotoSelectorHeader.swift */,
 				DC766B4825FA04BE0051EA14 /* ImageFetcherView.swift */,
+				DC766B4C25FA169D0051EA14 /* HomeCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -150,6 +158,7 @@
 		DC168C3F25F3C56700D9E1D4 /* InstagramFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				DC766B4E25FA1D020051EA14 /* Utilites */,
 				DC0BB26025F738F600F7FE5E /* Model */,
 				DC0BB25B25F7343500F7FE5E /* Views */,
 				DC0BB25625F714CC00F7FE5E /* Controllers */,
@@ -183,6 +192,14 @@
 				DC0BB25925F7165600F7FE5E /* UIViewController+navInTabBar.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		DC766B4E25FA1D020051EA14 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+				DC766B4F25FA1D170051EA14 /* InstagramFileManager.swift */,
+			);
+			path = Utilites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,8 +319,11 @@
 			files = (
 				DC0BB25F25F736A400F7FE5E /* CellID.swift in Sources */,
 				DC168C5725F3D26600D9E1D4 /* UIView+layout.swift in Sources */,
+				DC766B4B25FA15DD0051EA14 /* HomeController.swift in Sources */,
 				DC168C4525F3C56700D9E1D4 /* SignUpController.swift in Sources */,
 				DC0BB25825F7155800F7FE5E /* UserProfileController.swift in Sources */,
+				DC766B4D25FA169D0051EA14 /* HomeCell.swift in Sources */,
+				DC766B5025FA1D170051EA14 /* InstagramFileManager.swift in Sources */,
 				DC88672E25F879E900C92257 /* PhotoSelectorController.swift in Sources */,
 				DC168C4125F3C56700D9E1D4 /* AppDelegate.swift in Sources */,
 				DC0BB25525F714BE00F7FE5E /* MainTabBarController.swift in Sources */,

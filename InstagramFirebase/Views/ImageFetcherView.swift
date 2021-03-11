@@ -16,6 +16,10 @@ class ImageFetchView: UIImageView {
     guard let imageUrl = url, imageUrl != "", let imageURL = URL(string: imageUrl)
       else { return }
     currentImageURL = imageURL
+    if let cachedImage = InstagramFileManager.default.cachedImage(forURL: imageURL) {
+      self.image = cachedImage
+      return
+    }
     let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
         if let error = error {
           print("load image error: \(error)")
@@ -29,6 +33,7 @@ class ImageFetchView: UIImageView {
        if let data = data, imageURL == self.currentImageURL {
           DispatchQueue.main.async {
             self.image = UIImage(data: data)
+            InstagramFileManager.default.cacheImage(self.image, forURL: imageURL)
           }
         }
       }

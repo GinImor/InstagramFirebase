@@ -13,4 +13,5 @@ enum CellID {
   static let userProfileHeader = "userProfileHeader"
   static let photoSelectorCell = "photoSelectorCell"
   static let photoSelectorHeader = "photoSelectorHeader"
+  static let homeCell = "homeCell"
 }

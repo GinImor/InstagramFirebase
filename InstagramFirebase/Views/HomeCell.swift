@@ -1,5 +1,5 @@
 //
-//  UserProfileCell.swift
+//  HomeCell.swift
 //  InstagramFirebase
 //
 //  Created by Gin Imor on 3/11/21.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class UserProfileCell: UICollectionViewCell {
-  
+class HomeCell: UICollectionViewCell {
+ 
   var post: Post! {
     didSet {
       fetchImage()
@@ -33,12 +33,11 @@ class UserProfileCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setup() {
+  private func setup() {
     imageView.pinToSuperviewEdges(pinnedView: self)
   }
   
   private func fetchImage() {
     imageView.fetchImage(withUrl: self.post.imageUrl)
   }
-   
 }
