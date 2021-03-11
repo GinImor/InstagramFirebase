@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserProfileCell: PhotoSelectorCell {
+class UserProfileCell: UICollectionViewCell {
   
   var post: Post! {
     didSet {
@@ -16,25 +16,29 @@ class UserProfileCell: PhotoSelectorCell {
     }
   }
   
+  var imageView: ImageFetchView = {
+    let imv = ImageFetchView()
+    imv.disableTAMIC()
+    imv.contentMode = .scaleAspectFill
+    imv.clipsToBounds = true
+    return imv
+  }()
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    setup()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  func setup() {
+    imageView.pinToSuperviewEdges(pinnedView: self)
+  }
+  
   private func fetchImage() {
-     guard let post = self.post, let imageURL = URL(string: post.imageUrl) else { return }
-     let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
-       if let error = error {
-         print("load image error: \(error)")
-         return
-       }
-       guard let httpResponse = response as? HTTPURLResponse,
-         (200...299).contains(httpResponse.statusCode) else {
-           print("status error")
-           return
-       }
-       if let data = data {
-         DispatchQueue.main.async {
-           self.imageView.image = UIImage(data: data)
-         }
-       }
-     }
-     task.resume()
+    imageView.fetchImage(withUrl: self.post.imageUrl)
    }
    
 }

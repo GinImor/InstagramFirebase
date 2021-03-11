@@ -110,7 +110,7 @@ class PostPhotoController: UIViewController {
     let postMetaData: [String: Any] = [
       "imageUrl": imageUrl,
       "caption": caption,
-      "creationData": Date().timeIntervalSince1970,
+      "creationDate": Date().timeIntervalSince1970,
       "imageWidth": image.size.width,
       "imageHeight": image.size.height
       ]

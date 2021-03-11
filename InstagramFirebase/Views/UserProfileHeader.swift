@@ -12,12 +12,12 @@ class UserProfileHeadder: UICollectionViewCell {
 
   var user: User? {
     didSet {
-      loadProfileImage()
+      fetchProfileImage()
     }
   }
   
-  private var profileImageView: UIImageView = {
-    let imageView = UIImageView()
+  private var profileImageView: ImageFetchView = {
+    let imageView = ImageFetchView()
     imageView.layer.cornerRadius = 40
     imageView.layer.masksToBounds = true
     imageView.layer.borderColor = UIColor.black.cgColor
@@ -117,25 +117,8 @@ class UserProfileHeadder: UICollectionViewCell {
     return stackView
   }
   
-  private func loadProfileImage() {
-    guard let user = self.user, let imageUrl = URL(string: user.profileImageUrl) else { return }
-    let task = URLSession.shared.dataTask(with: imageUrl) { data, response, error in
-      if let error = error {
-        print("load image error: \(error)")
-        return
-      }
-      guard let httpResponse = response as? HTTPURLResponse,
-        (200...299).contains(httpResponse.statusCode) else {
-          print("status error")
-          return
-      }
-      if let data = data {
-        DispatchQueue.main.async {
-          self.profileImageView.image = UIImage(data: data)
-        }
-      }
-    }
-    task.resume()
+  private func fetchProfileImage() {
+    profileImageView.fetchImage(withUrl: self.user?.profileImageUrl)
   }
   
   private func displayModeButton(imageNamed: String) -> UIButton {
