@@ -88,7 +88,10 @@ class PhotoSelectorController: UICollectionViewController {
   }
   
   @objc func nextStep() {
-    print("go to next step")
+    guard let selectedIndex = self.selectedIndex else { return }
+    let postPhotoController = PostPhotoController()
+    postPhotoController.asset = assets[selectedIndex]
+    navigationController?.pushViewController(postPhotoController, animated: true)
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
