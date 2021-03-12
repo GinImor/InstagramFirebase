@@ -18,8 +18,7 @@ class UserProfileController: UICollectionViewController {
     super.viewDidLoad()
     setupNavigationBar()
     setupCollectionView()
-    fetchUserProfile()
-    fetchUserPosts()
+    fetchContents()
   }
   
   private func setupNavigationBar() {
@@ -50,30 +49,19 @@ class UserProfileController: UICollectionViewController {
     }
   }
   
-  private func fetchUserProfile() {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    Database.database().reference().child("Users/\(uid)").observeSingleEvent(of: .value, with: {snapshot in
-      print("snapshot: \(snapshot.value ?? "")")
-      guard let snapshotDic = snapshot.value as? [String: Any] else { return }
-      
-      self.user = User(dic: snapshotDic)
+  private func fetchContents() {
+    InstagramFirebaseService.fetchCurrentUser { (user) in
+      self.user = user
       self.navigationItem.title = self.user?.username
       self.collectionView.reloadData()
-    }) { (error) in
-      print("error happen: \(error)")
+      self.fetchUserPosts(forUser: user)
     }
   }
   
-  private func fetchUserPosts() {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    let postRef = Database.database().reference().child("Posts/\(uid)")
-    postRef.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
-      guard let postDic = snapshot.value as? [String: Any] else { return }
-      let post = Post(user: self.user, postDic: postDic)
+  private func fetchUserPosts(forUser user: User) {
+    InstagramFirebaseService.fetchOrderedPosts(byChild: "creationDate", user: user) { (post) in
       self.posts.append(post)
       self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
-    }) { (error) in
-      print("user profile fetch posts error: \(error)")
     }
   }
   

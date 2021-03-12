@@ -9,10 +9,12 @@
 import Foundation
 
 struct User {
+  let uid: String
   let username: String
   let profileImageUrl: String
   
-  init(dic: [String: Any]) {
+  init(uid: String, dic: [String: Any]) {
+    self.uid = uid
     self.username = dic["username"] as? String ?? ""
     self.profileImageUrl = dic["profileImageUrl"] as? String ?? ""
   }
