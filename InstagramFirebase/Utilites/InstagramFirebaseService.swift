@@ -12,7 +12,11 @@ import Firebase
 enum InstagramFirebaseService {
   
   static func fetchCurrentUser(completion: @escaping (User) -> Void) {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
+    fetchUserWithUid(nil, completion: completion)
+  }
+  
+  static func fetchUserWithUid(_ uid: String?, completion: @escaping (User) -> Void) {
+    guard let uid = uid ?? Auth.auth().currentUser?.uid else { return }
     Database.database().reference().child("Users/\(uid)").observeSingleEvent(of: .value, with: {snapshot in
       print("snapshot: \(snapshot.value ?? "")")
       DispatchQueue.main.async {
@@ -24,11 +28,12 @@ enum InstagramFirebaseService {
     }
   }
   
-  static func fetchAllUsers(completion: @escaping ([User]) -> Void) {
+  static func fetchAllUsersButCurrent(completion: @escaping ([User]) -> Void) {
     Database.database().reference().child("Users").observeSingleEvent(of: .value, with: { (snapshot) in
       guard let userDics = snapshot.value as? [String: Any] else { return }
       let users = userDics.compactMap { (uid, userDic) -> User? in
-        User(uid: uid, dic: userDic)
+        guard uid != Auth.auth().currentUser?.uid else { return nil}
+        return User(uid: uid, dic: userDic)
       }
       DispatchQueue.main.async { completion(users) }
     }) { (error) in

@@ -15,39 +15,29 @@ class UserSearchController: UICollectionViewController {
     didSet { collectionView.reloadData() }
   }
   
-  lazy var searchBar: UISearchBar = {
-    let searchBar = UISearchBar()
-    searchBar.disableTAMIC()
-    searchBar.placeholder = "Search for users"
-    searchBar.tintColor = UIColor.gray
-    searchBar.delegate = self
-    UITextField.appearance(
-      whenContainedInInstancesOf: [UISearchBar.self]
-    ).backgroundColor = UIColor(rgb: (230, 230, 230))
-    return searchBar
-  }()
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupSearchBar()
     setupCollectionView()
-    fetchAllUsers()
+    fetchAllOtherUsers()
   }
- 
+  
   private func setupSearchBar() {
-    guard let nvBar = navigationController?.navigationBar else { return }
-    searchBar.pinToSuperviewEdges(edgeInsets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8), pinnedView: nvBar)
+    let searchController = UISearchController(searchResultsController: nil)
+    searchController.searchBar.delegate = self
+    navigationItem.searchController = searchController
   }
   
   private func setupCollectionView() {
     collectionView.backgroundColor = .systemBackground
     collectionView.alwaysBounceVertical = true
+    collectionView.keyboardDismissMode = .onDrag
     collectionView.register(UserSearchCell.self, forCellWithReuseIdentifier: CellID.userSearchCell)
     setupLayout()
   }
   
-  private func fetchAllUsers() {
-    InstagramFirebaseService.fetchAllUsers { (users) in
+  private func fetchAllOtherUsers() {
+    InstagramFirebaseService.fetchAllUsersButCurrent { (users) in
       self.users = users.sorted(by: { (user1, user2) -> Bool in
         user1.username.localizedCompare(user2.username) == ComparisonResult.orderedAscending
       })
@@ -69,6 +59,13 @@ class UserSearchController: UICollectionViewController {
     cell.user = searchedUsers[indexPath.item]
     return cell
   }
+  
+  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+    userProfileController.uid = searchedUsers[indexPath.item].uid
+    navigationController?.pushViewController(userProfileController, animated: true)
+  }
+  
 }
 
 extension UserSearchController: UISearchBarDelegate {

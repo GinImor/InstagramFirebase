@@ -11,6 +11,7 @@ import Firebase
 
 class UserProfileController: UICollectionViewController {
   
+  var uid: String?
   var posts: [Post] = []
   private var user: User?
   
@@ -50,7 +51,7 @@ class UserProfileController: UICollectionViewController {
   }
   
   private func fetchContents() {
-    InstagramFirebaseService.fetchCurrentUser { (user) in
+    InstagramFirebaseService.fetchUserWithUid(uid) { (user) in
       self.user = user
       self.navigationItem.title = self.user?.username
       self.collectionView.reloadData()

@@ -13,6 +13,7 @@ class UserSearchCell: UICollectionViewCell {
   var user: User? {
     didSet {
       usernameLabel.text = user?.username
+      profileImageView.fetchImage(withUrl: user?.profileImageUrl)
     }
   }
   
