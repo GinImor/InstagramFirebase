@@ -48,9 +48,10 @@ class MainTabBarController: UITabBarController {
     let homeSelectedImage = UIImage(systemName: "house.fill")!
     let homeController = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
     
+    let searchFlowLayout = UICollectionViewFlowLayout()
     let searchImage = UIImage(systemName: "magnifyingglass.circle")!
     let searchSelectedImage = UIImage(systemName: "magnifyingglass.circle.fill")!
-    let searchController = UIViewController()
+    let searchController = UserSearchController(collectionViewLayout: searchFlowLayout)
     
     let plusImage = UIImage(systemName: "plus.square")!
     let plusSelectedImage = UIImage(systemName: "plus.square.fill")!
@@ -60,10 +61,10 @@ class MainTabBarController: UITabBarController {
     let likeSelectedImage = UIImage(systemName: "heart.circle.fill")!
     let likeController = UIViewController()
     
-    let flowLayout = UICollectionViewFlowLayout()
+    let profileFlowLayout = UICollectionViewFlowLayout()
     let userProfileImage = UIImage(systemName: "person")!
     let userProfileSelectedImage = UIImage(systemName: "person.fill")!
-    let userProfileController = UserProfileController(collectionViewLayout: flowLayout)
+    let userProfileController = UserProfileController(collectionViewLayout: profileFlowLayout)
     
     viewControllers = [
       homeController.wrapInNav(tabBarImage: homeImage, selectedImage: homeSelectedImage),

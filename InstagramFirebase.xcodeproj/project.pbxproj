@@ -25,6 +25,8 @@
 		DC1E1F9225F7618E00A99BA1 /* UIView+onesideBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */; };
 		DC1E1F9425F7A35400A99BA1 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9325F7A35400A99BA1 /* LoginController.swift */; };
 		DC361E7825FB296800E09675 /* InstagramFirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */; };
+		DC361E7F25FB53D100E09675 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7E25FB53D100E09675 /* UserSearchController.swift */; };
+		DC361E8125FB57A400E09675 /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E8025FB57A400E09675 /* UserSearchCell.swift */; };
 		DC766B4325F9A64C0051EA14 /* PostPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */; };
 		DC766B4525F9D8410051EA14 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4425F9D8410051EA14 /* Post.swift */; };
 		DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */; };
@@ -62,6 +64,8 @@
 		DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+onesideBorder.swift"; sourceTree = "<group>"; };
 		DC1E1F9325F7A35400A99BA1 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramFirebaseService.swift; sourceTree = "<group>"; };
+		DC361E7E25FB53D100E09675 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
+		DC361E8025FB57A400E09675 /* UserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchCell.swift; sourceTree = "<group>"; };
 		DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPhotoController.swift; sourceTree = "<group>"; };
 		DC766B4425F9D8410051EA14 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 			children = (
 				DC361E7C25FB52C100E09675 /* Root */,
 				DC361E7925FB515100E09675 /* Home */,
+				DC361E7D25FB53A700E09675 /* Search */,
 				DC0BB25625F714CC00F7FE5E /* PhotoPoster */,
 				DC361E7A25FB515C00E09675 /* UserProfile */,
 				DC0BB26025F738F600F7FE5E /* Model */,
@@ -229,6 +234,15 @@
 				DC361E7B25FB51CE00E09675 /* SignInOut */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		DC361E7D25FB53A700E09675 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				DC361E7E25FB53D100E09675 /* UserSearchController.swift */,
+				DC361E8025FB57A400E09675 /* UserSearchCell.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		DC766B4E25FA1D020051EA14 /* Utilites */ = {
@@ -369,11 +383,13 @@
 				DC0BB25525F714BE00F7FE5E /* MainTabBarController.swift in Sources */,
 				DC1E1F9225F7618E00A99BA1 /* UIView+onesideBorder.swift in Sources */,
 				DC766B4925FA04BE0051EA14 /* ImageFetcherView.swift in Sources */,
+				DC361E8125FB57A400E09675 /* UserSearchCell.swift in Sources */,
 				DC168C4325F3C56700D9E1D4 /* SceneDelegate.swift in Sources */,
 				DC101D2725F908AF00626833 /* PhotoSelectorHeader.swift in Sources */,
 				DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */,
 				DC88673025F8A03A00C92257 /* PhotoSelectorCell.swift in Sources */,
 				DC766B4325F9A64C0051EA14 /* PostPhotoController.swift in Sources */,
+				DC361E7F25FB53D100E09675 /* UserSearchController.swift in Sources */,
 				DC0BB26225F7390000F7FE5E /* User.swift in Sources */,
 				DC0BB25D25F7345200F7FE5E /* UserProfileHeader.swift in Sources */,
 				DC168C5925F3D27800D9E1D4 /* UIStackView+predefinedStackView.swift in Sources */,
