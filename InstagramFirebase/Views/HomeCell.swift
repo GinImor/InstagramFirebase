@@ -16,28 +16,55 @@ class HomeCell: UICollectionViewCell {
     }
   }
   
-  var imageView: ImageFetchView = {
-    let imv = ImageFetchView()
-    imv.disableTAMIC()
-    imv.contentMode = .scaleAspectFill
-    imv.clipsToBounds = true
-    return imv
-  }()
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    setup()
+  var width: CGFloat? {
+    didSet {
+      guard width != nil && !widthConstraint.isActive else { return }
+      widthConstraint.isActive = true
+      widthConstraint.constant = width!
+    }
   }
   
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+  @IBOutlet private var widthConstraint: NSLayoutConstraint! {
+    didSet { widthConstraint.isActive = false }
   }
+
+  @IBOutlet weak var userProfileImageView: ImageFetchView! {
+    didSet {
+      userProfileImageView.layer.cornerRadius = 20
+      userProfileImageView.backgroundColor = .black
+    }
+  }
+  @IBOutlet weak var usernameLabel: UILabel!
   
-  private func setup() {
-    imageView.pinToSuperviewEdges(pinnedView: self)
+  @IBOutlet weak var photoImageView: ImageFetchView!
+  
+  @IBOutlet weak var captionLabel: UILabel! {
+    didSet {
+      captionLabel.attributedText = attributedTextForCaptionLabel(username: "Username", caption: " Some caption text below the image")
+    }
+  }
+  @IBOutlet weak var creationLabel: UILabel!
+  
+  override func awakeFromNib() {
+    super.awakeFromNib()
+    contentView.disableTAMIC()
+    NSLayoutConstraint.activate([
+      contentView.leftAnchor.constraint(equalTo: leftAnchor),
+      contentView.rightAnchor.constraint(equalTo: rightAnchor),
+      contentView.topAnchor.constraint(equalTo: topAnchor),
+      contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    ])
   }
   
   private func fetchImage() {
-    imageView.fetchImage(withUrl: self.post.imageUrl)
+    photoImageView.fetchImage(withUrl: self.post.imageUrl)
+  }
+  
+  private func attributedTextForCaptionLabel(username: String, caption: String) -> NSAttributedString {
+    let result = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)])
+    let captionPart = NSAttributedString(string: caption, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+    result.append(captionPart)
+    return result
   }
 }
+

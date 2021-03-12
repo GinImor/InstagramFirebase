@@ -26,14 +26,14 @@ class HomeController: UICollectionViewController {
   
   private func setupCollectionView() {
     collectionView.backgroundColor = .systemBackground
-    collectionView.register(HomeCell.self, forCellWithReuseIdentifier: CellID.homeCell)
+    let nib = UINib(nibName: "HomeCell", bundle: nil)
+    collectionView.register(nib, forCellWithReuseIdentifier: CellID.homeCell)
     setupLayout()
   }
   
   private func setupLayout() {
     guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-    let itemWidth = collectionView.bounds.width
-    flowLayout.itemSize = CGSize(width: itemWidth, height: 200)
+    flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
   }
   
   private func fetchUserPosts() {
@@ -61,7 +61,7 @@ class HomeController: UICollectionViewController {
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.homeCell, for: indexPath) as! HomeCell
     cell.post = posts[indexPath.item]
-    
+    cell.width = collectionView.bounds.width
     return cell
   }
   

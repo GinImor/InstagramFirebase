@@ -31,6 +31,7 @@
 		DC766B4B25FA15DD0051EA14 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4A25FA15DD0051EA14 /* HomeController.swift */; };
 		DC766B4D25FA169D0051EA14 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4C25FA169D0051EA14 /* HomeCell.swift */; };
 		DC766B5025FA1D170051EA14 /* InstagramFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4F25FA1D170051EA14 /* InstagramFileManager.swift */; };
+		DC766B5425FA47970051EA14 /* HomeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC766B5325FA47970051EA14 /* HomeCell.xib */; };
 		DC88672E25F879E900C92257 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672D25F879E900C92257 /* PhotoSelectorController.swift */; };
 		DC88673025F8A03A00C92257 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */; };
 		DC9D2A4E25F4FE7700AA4AAA /* UIImage+colorConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */; };
@@ -66,6 +67,7 @@
 		DC766B4A25FA15DD0051EA14 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		DC766B4C25FA169D0051EA14 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		DC766B4F25FA1D170051EA14 /* InstagramFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramFileManager.swift; sourceTree = "<group>"; };
+		DC766B5325FA47970051EA14 /* HomeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeCell.xib; sourceTree = "<group>"; };
 		DC88672D25F879E900C92257 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+colorConstructor.swift"; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				DC101D2625F908AF00626833 /* PhotoSelectorHeader.swift */,
 				DC766B4825FA04BE0051EA14 /* ImageFetcherView.swift */,
 				DC766B4C25FA169D0051EA14 /* HomeCell.swift */,
+				DC766B5325FA47970051EA14 /* HomeCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			files = (
 				DC168C4D25F3C56800D9E1D4 /* LaunchScreen.storyboard in Resources */,
 				DC168C4A25F3C56800D9E1D4 /* Assets.xcassets in Resources */,
+				DC766B5425FA47970051EA14 /* HomeCell.xib in Resources */,
 				DCBE223225F670A2000E3A4F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
