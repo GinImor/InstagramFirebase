@@ -71,7 +71,7 @@ class UserProfileController: UICollectionViewController {
       guard let postDic = snapshot.value as? [String: Any] else { return }
       let post = Post(user: self.user, postDic: postDic)
       self.posts.append(post)
-      self.collectionView.insertItems(at: [IndexPath(item: self.posts.count - 1, section: 0)])
+      self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
     }) { (error) in
       print("user profile fetch posts error: \(error)")
     }
@@ -99,7 +99,7 @@ class UserProfileController: UICollectionViewController {
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath) as! UserProfileCell
-    cell.post = posts[indexPath.item]
+    cell.post = postForItem(indexPath.item)
     return cell
   }
   
@@ -107,6 +107,11 @@ class UserProfileController: UICollectionViewController {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.userProfileHeader, for: indexPath) as! UserProfileHeadder
     header.user = user
     return header
+  }
+  
+  private func postForItem(_ item: Int) -> Post {
+    let lastIndex = posts.count - 1
+    return posts[lastIndex - item]
   }
   
 }
