@@ -38,19 +38,29 @@ class HomeController: UICollectionViewController {
   
   private func fetchUserPosts() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
-    let postRef = Database.database().reference().child("Posts/\(uid)")
-    postRef.observeSingleEvent(of: .value, with: { (snapshot) in
-      print("user post snapshot value: \(String(describing: snapshot.value))")
-      guard let allPosts = snapshot.value as? [String: Any] else { return }
-      self.posts = allPosts.values.compactMap {
-        guard let postMetaData = $0 as? [String: Any] else { return nil }
-        let post = Post(postDic: postMetaData)
-        print("post image url: \(post.imageUrl)")
-        return post
+    
+    Database.database().reference().child("Users/\(uid)").observeSingleEvent(of: .value, with: {snapshot in
+      guard let snapshotDic = snapshot.value as? [String: Any] else { return }
+      
+      let user = User(dic: snapshotDic)
+      
+      let postRef = Database.database().reference().child("Posts/\(uid)")
+      postRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        print("user post snapshot value: \(String(describing: snapshot.value))")
+        guard let allPosts = snapshot.value as? [String: Any] else { return }
+        self.posts = allPosts.values.compactMap {
+          guard let postMetaData = $0 as? [String: Any] else { return nil }
+          let post = Post(user: user, postDic: postMetaData)
+          print("post image url: \(post.imageUrl)")
+          return post
+        }
+        self.collectionView.reloadData()
+      }) { (error) in
+        print("user profile fetch posts error: \(error)")
       }
-      self.collectionView.reloadData()
+      
     }) { (error) in
-      print("user profile fetch posts error: \(error)")
+      print("error happen: \(error)")
     }
   }
   

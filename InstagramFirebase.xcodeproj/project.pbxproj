@@ -134,8 +134,8 @@
 		DC0BB26025F738F600F7FE5E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DC0BB26125F7390000F7FE5E /* User.swift */,
 				DC766B4425F9D8410051EA14 /* Post.swift */,
+				DC0BB26125F7390000F7FE5E /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

@@ -11,9 +11,7 @@ import UIKit
 class HomeCell: UICollectionViewCell {
  
   var post: Post! {
-    didSet {
-      fetchImage()
-    }
+    didSet { updateUI() }
   }
   
   var width: CGFloat? {
@@ -38,11 +36,7 @@ class HomeCell: UICollectionViewCell {
   
   @IBOutlet weak var photoImageView: ImageFetchView!
   
-  @IBOutlet weak var captionLabel: UILabel! {
-    didSet {
-      captionLabel.attributedText = attributedTextForCaptionLabel(username: "Username", caption: " Some caption text below the image")
-    }
-  }
+  @IBOutlet weak var captionLabel: UILabel!
   @IBOutlet weak var creationLabel: UILabel!
   
   override func awakeFromNib() {
@@ -56,13 +50,16 @@ class HomeCell: UICollectionViewCell {
     ])
   }
   
-  private func fetchImage() {
-    photoImageView.fetchImage(withUrl: self.post.imageUrl)
+  private func updateUI() {
+    userProfileImageView.fetchImage(withUrl: post.user?.profileImageUrl)
+    usernameLabel.text = post.user?.username
+    photoImageView.fetchImage(withUrl: post.imageUrl)
+    captionLabel.attributedText = attributedTextForPost()
   }
   
-  private func attributedTextForCaptionLabel(username: String, caption: String) -> NSAttributedString {
-    let result = NSMutableAttributedString(string: username, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)])
-    let captionPart = NSAttributedString(string: caption, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+  private func attributedTextForPost() -> NSAttributedString {
+    let result = NSMutableAttributedString(string: post.user?.username ?? "", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15)])
+    let captionPart = NSAttributedString(string: " " + post.caption, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
     result.append(captionPart)
     return result
   }

@@ -69,7 +69,7 @@ class UserProfileController: UICollectionViewController {
     let postRef = Database.database().reference().child("Posts/\(uid)")
     postRef.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
       guard let postDic = snapshot.value as? [String: Any] else { return }
-      let post = Post(postDic: postDic)
+      let post = Post(user: self.user, postDic: postDic)
       self.posts.append(post)
       self.collectionView.insertItems(at: [IndexPath(item: self.posts.count - 1, section: 0)])
     }) { (error) in
