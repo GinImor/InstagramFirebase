@@ -10,7 +10,13 @@ import UIKit
 
 class UserSearchCell: UICollectionViewCell {
   
-  var imageView: ImageFetchView = {
+  var user: User? {
+    didSet {
+      usernameLabel.text = user?.username
+    }
+  }
+  
+  var profileImageView: ImageFetchView = {
     let imv = ImageFetchView()
     imv.contentMode = .scaleAspectFill
     imv.clipsToBounds = true
@@ -45,7 +51,7 @@ class UserSearchCell: UICollectionViewCell {
   
   private func setup() {
     let messageStackView = UIStackView.verticalStack(arrangedSubviews: [usernameLabel, postsNumLabel])
-    let profileStackView = UIStackView(arrangedSubviews: [imageView, messageStackView])
+    let profileStackView = UIStackView(arrangedSubviews: [profileImageView, messageStackView])
     let edgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     let separator = UIView()
     
@@ -59,8 +65,8 @@ class UserSearchCell: UICollectionViewCell {
     profileStackView.spacing = 8
     profileStackView.pinToSuperviewEdges(edgeInsets: edgeInsets, pinnedView: self)
     NSLayoutConstraint.activate([
-      imageView.widthAnchor.constraint(equalToConstant: 50),
-      imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0),
+      profileImageView.widthAnchor.constraint(equalToConstant: 50),
+      profileImageView.heightAnchor.constraint(equalTo: profileImageView.widthAnchor, multiplier: 1.0),
       
       separator.leadingAnchor.constraint(equalTo: messageStackView.leadingAnchor),
       separator.trailingAnchor.constraint(equalTo: messageStackView.trailingAnchor),

@@ -13,7 +13,8 @@ struct User {
   let username: String
   let profileImageUrl: String
   
-  init(uid: String, dic: [String: Any]) {
+  init?(uid: String, dic: Any?) {
+    guard let dic = dic as? [String: Any] else { return nil}
     self.uid = uid
     self.username = dic["username"] as? String ?? ""
     self.profileImageUrl = dic["profileImageUrl"] as? String ?? ""

@@ -15,12 +15,24 @@ enum InstagramFirebaseService {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     Database.database().reference().child("Users/\(uid)").observeSingleEvent(of: .value, with: {snapshot in
       print("snapshot: \(snapshot.value ?? "")")
-      guard let snapshotDic = snapshot.value as? [String: Any] else { return }
       DispatchQueue.main.async {
-        completion(User(uid: uid, dic: snapshotDic))
+        guard let user = User(uid: uid, dic: snapshot.value) else { return }
+        completion(user)
       }
     }) { (error) in
       print("error happen: \(error)")
+    }
+  }
+  
+  static func fetchAllUsers(completion: @escaping ([User]) -> Void) {
+    Database.database().reference().child("Users").observeSingleEvent(of: .value, with: { (snapshot) in
+      guard let userDics = snapshot.value as? [String: Any] else { return }
+      let users = userDics.compactMap { (uid, userDic) -> User? in
+        User(uid: uid, dic: userDic)
+      }
+      DispatchQueue.main.async { completion(users) }
+    }) { (error) in
+      print("fetch all users error", error)
     }
   }
   
@@ -35,9 +47,7 @@ enum InstagramFirebaseService {
           print("post image url: \(post.imageUrl)")
           return post
         }
-        DispatchQueue.main.async {
-          completion(posts)
-        }
+        DispatchQueue.main.async {  completion(posts) }
       }) { (error) in
         print("user profile fetch posts error: \(error)")
       }
@@ -48,10 +58,8 @@ enum InstagramFirebaseService {
     postRef.queryOrdered(byChild: child).observe(.childAdded, with: { (snapshot) in
       guard let postDic = snapshot.value as? [String: Any] else { return }
       let post = Post(user: user, postDic: postDic)
-      DispatchQueue.main.async {
-        completion(post)
-      }
-    }) { (error) in
+      DispatchQueue.main.async { completion(post) }
+      }) { (error) in
       print("user profile fetch posts error: \(error)")
     }
   }
