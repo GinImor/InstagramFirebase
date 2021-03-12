@@ -23,9 +23,14 @@ class UserSearchController: UICollectionViewController {
   }
   
   private func setupSearchBar() {
-    let searchController = UISearchController(searchResultsController: nil)
-    searchController.searchBar.delegate = self
-    navigationItem.searchController = searchController
+    let searchBar = UISearchBar()
+    searchBar.placeholder = "Search for users"
+    searchBar.tintColor = UIColor.gray
+    searchBar.delegate = self
+    UITextField.appearance(
+      whenContainedInInstancesOf: [UISearchBar.self]
+    ).backgroundColor = UIColor(rgb: (230, 230, 230))
+    navigationItem.titleView = searchBar
   }
   
   private func setupCollectionView() {
