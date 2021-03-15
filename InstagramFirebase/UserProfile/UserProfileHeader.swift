@@ -112,6 +112,8 @@ class UserProfileHeadder: UICollectionViewCell {
   
   private func displayModeStack() -> UIStackView {
     let stackView = UIStackView.horizontalFillEqualStack(arrangedSubviews: [gridButton, listButton, bookmarkButton])
+    stackView.isLayoutMarginsRelativeArrangement = true
+    stackView.layoutMargins = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
     stackView.addTopBorder(withColor: .black, borderWidth: 0.5)
     stackView.addBottomBorder(withColor: .black, borderWidth: 0.5)
     return stackView

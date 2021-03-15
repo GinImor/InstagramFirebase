@@ -11,38 +11,104 @@ import Firebase
 
 enum InstagramFirebaseService {
   
+  enum DatabaseChild {
+    case users(uid: String?)
+    case posts(uid: String?, needPostId: Bool)
+    
+    var path: DatabaseReference {
+      switch self {
+      case let .users(uid):
+        return database.child("Users/\(uid ?? "")")
+      case let .posts(uid, needPostId):
+        if uid == nil { return database.child("Posts") }
+        else if !needPostId { return database.child("Posts/\(uid!)") }
+        return database.child("Posts/\(uid!)").childByAutoId()
+      }
+    }
+  }
+  
+  enum StorageChild: String {
+    case postImages = "post_images"
+    case profileImages = "profile_images"
+  }
+  
+  static var auth: Auth { Auth.auth() }
+  static var currentUser: Firebase.User? { auth.currentUser }
+  static var database: DatabaseReference { Database.database().reference() }
+  static var storage: StorageReference { Storage.storage().reference() }
+  
+  static var hasCurrentUser: Bool {
+    currentUser != nil
+  }
+  
+  static func pathString(_ child: String, subChilds: [String]) -> String{
+    var pathString = child
+    let subPathString = subChilds.joined(separator: "/")
+    if subPathString != "" {
+      pathString += "/\(subPathString)"
+    }
+    return pathString
+  }
+  
+  static func pathForSTOChild(_ child: StorageChild, subChilds: String...) -> StorageReference {
+    return storage.child(pathString(child.rawValue, subChilds: subChilds))
+  }
+  
+  static func configure() {
+    FirebaseApp.configure()
+  }
+  
+  static func signIn(withEmail email: String?, password: String?, completion: @escaping () -> Void) {
+    guard let email = email, let password = password else { return }
+    Auth.auth().signIn(withEmail: email, password: password) { (dataResult, error) in
+      guard error == nil else {
+        print("sign in error: \(String(describing: error))")
+        return
+      }
+      guard let _ = dataResult else { return }
+      completion()
+    }
+  }
+  
+  static func signOutCurrentUser(completion: () -> Void) {
+    do {
+      try auth.signOut()
+      completion()
+    } catch {
+      print("sing out error", error)
+    }
+  }
+  
   static func fetchCurrentUser(completion: @escaping (User) -> Void) {
     fetchUserWithUid(nil, completion: completion)
   }
   
   static func fetchUserWithUid(_ uid: String?, completion: @escaping (User) -> Void) {
-    guard let uid = uid ?? Auth.auth().currentUser?.uid else { return }
-    Database.database().reference().child("Users/\(uid)").observeSingleEvent(of: .value, with: {snapshot in
+    guard let uid = uid ?? currentUser?.uid else { return }
+    DatabaseChild.users(uid: uid).path.observeSingleEvent(of: .value, with: {snapshot in
       print("snapshot: \(snapshot.value ?? "")")
-      DispatchQueue.main.async {
-        guard let user = User(uid: uid, dic: snapshot.value) else { return }
-        completion(user)
-      }
+      guard let user = User(uid: uid, dic: snapshot.value) else { return }
+      completion(user)
     }) { (error) in
       print("error happen: \(error)")
     }
   }
   
   static func fetchAllUsersButCurrent(completion: @escaping ([User]) -> Void) {
-    Database.database().reference().child("Users").observeSingleEvent(of: .value, with: { (snapshot) in
+    DatabaseChild.users(uid: nil).path.observeSingleEvent(of: .value, with: { (snapshot) in
       guard let userDics = snapshot.value as? [String: Any] else { return }
       let users = userDics.compactMap { (uid, userDic) -> User? in
-        guard uid != Auth.auth().currentUser?.uid else { return nil}
+        guard uid != currentUser?.uid else { return nil}
         return User(uid: uid, dic: userDic)
       }
-      DispatchQueue.main.async { completion(users) }
+      completion(users)
     }) { (error) in
       print("fetch all users error", error)
     }
   }
   
   static func fetchPostsForUser(_ user: User, completion: @escaping ([Post]) -> Void) {
-    let postRef = Database.database().reference().child("Posts/\(user.uid)")
+    let postRef = DatabaseChild.posts(uid: user.uid, needPostId: false).path
       postRef.observeSingleEvent(of: .value, with: { (snapshot) in
         print("user post snapshot value: \(String(describing: snapshot.value))")
         guard let allPosts = snapshot.value as? [String: Any] else { return }
@@ -52,20 +118,134 @@ enum InstagramFirebaseService {
           print("post image url: \(post.imageUrl)")
           return post
         }
-        DispatchQueue.main.async {  completion(posts) }
+        completion(posts)
       }) { (error) in
         print("user profile fetch posts error: \(error)")
       }
     }
 
   static func fetchOrderedPosts(byChild child: String, user: User, completion: @escaping (Post) -> Void) {
-    let postRef = Database.database().reference().child("Posts/\(user.uid)")
+    let postRef = DatabaseChild.posts(uid: user.uid, needPostId: false).path
     postRef.queryOrdered(byChild: child).observe(.childAdded, with: { (snapshot) in
       guard let postDic = snapshot.value as? [String: Any] else { return }
       let post = Post(user: user, postDic: postDic)
-      DispatchQueue.main.async { completion(post) }
+      completion(post)
       }) { (error) in
       print("user profile fetch posts error: \(error)")
+    }
+  }
+  
+  static func createUser(
+    withEmail email: String,
+    username: String,
+    password: String,
+    profileImageDataProvider: @escaping () -> Data?,
+    completion: @escaping (Error?) -> Void)
+  {
+    Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+      guard error == nil else {
+        print("create user error: \(String(describing: error))")
+        completion(error)
+        return
+      }
+      guard let uid = authResult?.user.uid,
+        let imageData = profileImageDataProvider()
+        else {
+          completion(NSError())
+          return
+      }
+      
+      storeImageData(imageData, forChild: .profileImages) { imageUrl, error in
+        guard error == nil else {
+          completion(error)
+          return
+        }
+        storeMetaData(
+          forChild: DatabaseChild.users(uid: uid),
+          metaDataProvider: {
+            return ["username": username, "profileImageUrl": imageUrl!]
+          },
+          completion: { error in
+            completion(error)
+          }
+        )
+      }
+    }
+  }
+  
+  static func post(
+    caption: String,
+    imageSize: CGSize,
+    postImageDataProvider: @escaping () -> Data?,
+    completion: @escaping (Error?) -> Void)
+  {
+    guard let uid = currentUser?.uid,
+      let imageData = postImageDataProvider() else { completion(NSError()); return }
+    
+    storeImageData(imageData, forChild: .postImages) { (imageUrl, error) in
+      guard error == nil else {
+        completion(error)
+        return
+      }
+      storeMetaData(
+        forChild: .posts(uid: uid, needPostId: true),
+        metaDataProvider: {
+          return [
+            "imageUrl": imageUrl!,
+            "caption": caption,
+            "creationDate": Date().timeIntervalSince1970,
+            "imageWidth": imageSize.width,
+            "imageHeight": imageSize.height
+          ]
+        },
+        completion: { error in
+          completion(error)
+        }
+      )
+    }
+  }
+  
+  static func storeImageData(
+    _ imageData: Data,
+    forChild child: StorageChild,
+    completion: @escaping (String?, Error?) -> Void)
+  {
+    let fileName = NSUUID().uuidString
+    let ref = pathForSTOChild(child, subChilds: fileName)
+    ref.putData(imageData, metadata: nil) { (_, error) in
+      if let error = error {
+        print("put data error: \(error)")
+        completion(nil, error)
+      }
+      ref.downloadURL(completion: { (url, error) in
+        if let error = error {
+          print("download url error: \(error)")
+          completion(nil, error)
+          return
+        }
+        
+        guard let imageUrl = url?.absoluteString else {
+          completion(nil, NSError())
+          return
+        }
+        completion(imageUrl, nil)
+      })
+    }
+  }
+  
+  static func storeMetaData(
+    forChild child: DatabaseChild,
+    metaDataProvider: () -> [String: Any],
+    completion: @escaping (Error?) -> Void)
+  {
+    let metaData = metaDataProvider()
+    child.path.updateChildValues(metaData) { (error, ref) in
+      guard error == nil else {
+        print("update chile values error: \(String(describing: error))")
+        completion(error)
+        return
+      }
+      completion(nil)
     }
   }
   

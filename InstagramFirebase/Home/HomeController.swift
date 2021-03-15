@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class HomeController: UICollectionViewController {
   
@@ -39,8 +38,10 @@ class HomeController: UICollectionViewController {
   private func fetchUserPosts() {
     InstagramFirebaseService.fetchCurrentUser { (user) in
       InstagramFirebaseService.fetchPostsForUser(user) { (posts) in
-        self.posts = posts
-        self.collectionView.reloadData()
+        DispatchQueue.main.async {
+          self.posts = posts
+          self.collectionView.reloadData()
+        }
       }
     }
   }

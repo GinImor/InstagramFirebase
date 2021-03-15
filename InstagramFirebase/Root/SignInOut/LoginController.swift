@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 extension Notification.Name {
   static let didLoginInstagramUser = Notification.Name(rawValue: "didLoginInstagramUser")
@@ -98,15 +97,11 @@ class LoginController: UIViewController {
   }
   
   @objc func login() {
-    guard let email = emailTextField.text, let password = passwordTextField.text else { return }
-    Auth.auth().signIn(withEmail: email, password: password) { (dataResult, error) in
-      guard error == nil else {
-        print("sign in error: \(String(describing: error))")
-        return
+    InstagramFirebaseService.signIn(withEmail: emailTextField.text, password: passwordTextField.text) {
+      DispatchQueue.main.async {
+        NotificationCenter.default.post(name: .didLoginInstagramUser, object: nil)
+        self.presentingViewController?.dismiss(animated: true)
       }
-      guard let _ = dataResult else { return }
-      NotificationCenter.default.post(name: .didLoginInstagramUser, object: nil)
-      self.presentingViewController?.dismiss(animated: true)
     }
   }
   

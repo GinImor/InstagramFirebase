@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class MainTabBarController: UITabBarController {
   
@@ -30,7 +29,7 @@ class MainTabBarController: UITabBarController {
   }
   
   private func setupViewControllerToShow() {
-    guard Auth.auth().currentUser != nil else {
+    guard InstagramFirebaseService.hasCurrentUser else {
       DispatchQueue.main.async { self.setupLoginVC() }
       return
     }

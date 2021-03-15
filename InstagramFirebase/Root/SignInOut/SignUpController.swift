@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class SignUpController: UIViewController {
   
@@ -34,8 +33,6 @@ class SignUpController: UIViewController {
     button.addTarget(self, action: #selector(signUp), for: .touchUpInside)
     return button
   }()
-  
-  private var storage: StorageReference { Storage.storage().reference() }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -112,37 +109,19 @@ class SignUpController: UIViewController {
       let username = userNameTextField.text, username != "",
       let password = passwordTextField.text, password != "" else { return }
     
-    Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
-      guard error == nil else { print("create user error: \(String(describing: error))"); return }
-      guard let uid = authResult?.user.uid, let image = self.avatarButton.image(for: .normal),
-        let imageData = image.jpegData(compressionQuality: 0.3) else { return }
-      let fileName = NSUUID().uuidString
-      let ref = self.storage.child("profile_images/\(fileName)")
-      ref.putData(imageData, metadata: nil) { (_, error) in
-        if let error = error {
-          print("put data error: \(error)")
-        }
-        ref.downloadURL(completion: { (url, error) in
-          if let error = error {
-            print("download url error: \(error)")
-            return
-          }
-          
-          if let profileImageUrl = url?.absoluteString {
-            let profileValue = ["username": username, "profileImageUrl": profileImageUrl]
-            let value = [uid: profileValue]
-            Database.database().reference().child("Users").updateChildValues(value) { (error, ref) in
-              if error != nil {
-                print("update chile values error: \(String(describing: error))")
-              } else {
-                NotificationCenter.default.post(name: .didLoginInstagramUser, object: nil)
-                self.navigationController?.popViewController(animated: true)
-              }
-            }
-          }
-        })
+    InstagramFirebaseService.createUser(
+      withEmail: email,
+      username: username,
+      password: password,
+      profileImageDataProvider: {
+        guard let image = self.avatarButton.image(for: .normal) else { return nil }
+        return image.jpegData(compressionQuality: 0.3)
+    }) { error in
+      guard error == nil else { return }
+      DispatchQueue.main.async {
+        NotificationCenter.default.post(name: .didLoginInstagramUser, object: nil)
+        self.presentingViewController?.dismiss(animated: true)
       }
-    
     }
   }
   
@@ -159,7 +138,6 @@ class SignUpController: UIViewController {
     textField.addTarget(self, action: #selector(textChange), for: .editingChanged)
     return textField
   }
-  
 
 }
 

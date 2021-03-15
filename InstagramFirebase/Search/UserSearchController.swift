@@ -43,10 +43,12 @@ class UserSearchController: UICollectionViewController {
   
   private func fetchAllOtherUsers() {
     InstagramFirebaseService.fetchAllUsersButCurrent { (users) in
-      self.users = users.sorted(by: { (user1, user2) -> Bool in
-        user1.username.localizedCompare(user2.username) == ComparisonResult.orderedAscending
-      })
-      self.searchedUsers = self.users
+      DispatchQueue.main.async {
+        self.users = users.sorted(by: { (user1, user2) -> Bool in
+          user1.username.localizedCompare(user2.username) == ComparisonResult.orderedAscending
+        })
+        self.searchedUsers = self.users
+      }
     }
   }
   

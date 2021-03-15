@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Firebase
 
 class UserProfileController: UICollectionViewController {
   
@@ -40,29 +39,30 @@ class UserProfileController: UICollectionViewController {
   }
   
   private func logout() {
-    do {
-      try Auth.auth().signOut()
+    InstagramFirebaseService.signOutCurrentUser {
       let loginController = LoginController()
       let nav = UINavigationController(rootViewController: loginController)
-      present(nav, animated: true)
-    } catch {
-      print("sign out error: \(error)")
+      self.present(nav, animated: true)
     }
   }
   
   private func fetchContents() {
     InstagramFirebaseService.fetchUserWithUid(uid) { (user) in
-      self.user = user
-      self.navigationItem.title = self.user?.username
-      self.collectionView.reloadData()
-      self.fetchUserPosts(forUser: user)
+      DispatchQueue.main.async {
+        self.user = user
+        self.navigationItem.title = self.user?.username
+        self.collectionView.reloadData()
+        self.fetchUserPosts(forUser: user)
+      }
     }
   }
   
   private func fetchUserPosts(forUser user: User) {
     InstagramFirebaseService.fetchOrderedPosts(byChild: "creationDate", user: user) { (post) in
-      self.posts.append(post)
-      self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+      DispatchQueue.main.async {
+        self.posts.append(post)
+        self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
+      }
     }
   }
   
@@ -80,6 +80,7 @@ class UserProfileController: UICollectionViewController {
     
     let itemWidth = floor((collectionView.bounds.width - 2) / 3)
     flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+    flowLayout.headerReferenceSize = CGSize(width: 0, height: 186)
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -103,11 +104,4 @@ class UserProfileController: UICollectionViewController {
     return posts[lastIndex - item]
   }
   
-}
-
-extension UserProfileController: UICollectionViewDelegateFlowLayout {
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-    return CGSize(width: 0, height: 200)
-  }
 }
