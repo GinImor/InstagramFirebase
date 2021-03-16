@@ -9,6 +9,10 @@
 import UIKit
 import Photos
 
+extension Notification.Name {
+  static let didPost = Notification.Name(rawValue: "didPost")
+}
+
 class PostPhotoController: UIViewController {
   
   var asset: PHAsset! {
@@ -88,6 +92,7 @@ class PostPhotoController: UIViewController {
           if error != nil {
             self.navigationItem.rightBarButtonItem?.isEnabled = true
           } else {
+            NotificationCenter.default.post(name: .didPost, object: nil)
             self.presentingViewController?.dismiss(animated: true)
           }
         }

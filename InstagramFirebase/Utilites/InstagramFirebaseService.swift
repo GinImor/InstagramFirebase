@@ -118,7 +118,7 @@ enum InstagramFirebaseService {
     fetchPostsForUid(currentUserUid) { (posts) in
       completion(posts)
     }
-    DatabaseChild.following(uid: currentUserUid).path.observe(.value, with: { (snapshot) in
+    DatabaseChild.following(uid: currentUserUid).path.observeSingleEvent(of: .value, with: { (snapshot) in
       guard let followingsUids = (snapshot.value as? [String: Any])?.keys else { return }
       for uid in followingsUids {
         fetchPostsForUid(uid) { (posts) in

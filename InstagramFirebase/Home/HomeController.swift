@@ -14,9 +14,14 @@ class HomeController: UICollectionViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupNotification()
     setupNavigationBar()
     setupCollectionView()
     fetchUserPosts()
+  }
+  
+  private func setupNotification() {
+    NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .didPost, object: nil)
   }
   
   private func setupNavigationBar() {
@@ -27,24 +32,26 @@ class HomeController: UICollectionViewController {
     collectionView.backgroundColor = .systemBackground
     let nib = UINib(nibName: "HomeCell", bundle: nil)
     collectionView.register(nib, forCellWithReuseIdentifier: CellID.homeCell)
+    let refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    collectionView.refreshControl = refreshControl
     setupLayout()
   }
   
   private func setupLayout() {
     guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-    flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+    flowLayout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: 500)// UICollectionViewFlowLayout.automaticSize
   }
   
   private func fetchUserPosts() {
-    InstagramFirebaseService.fetchPostsForCurrentUserAndFollowings { (posts) in
-      guard let posts = posts else { return }
-      DispatchQueue.main.async {
-        self.posts.append(contentsOf: posts)
-        self.posts.sort { (post1, post2) in
-          post1.creationDate > post2.creationDate
-        }
-        self.collectionView.reloadData()
+    InstagramFirebaseService.fetchPostsForCurrentUserAndFollowings { (pendingPosts) in
+      self.collectionView.refreshControl?.endRefreshing()
+      guard let pendingPosts = pendingPosts else { return }
+      self.posts.append(contentsOf: pendingPosts)
+      self.posts.sort { (post1, post2) in
+        post1.creationDate > post2.creationDate
       }
+      self.collectionView.reloadData()
     }
   }
   
@@ -54,9 +61,16 @@ class HomeController: UICollectionViewController {
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.homeCell, for: indexPath) as! HomeCell
-    cell.post = posts[indexPath.item]
+    if !posts.isEmpty {
+      cell.post = posts[indexPath.item]
+    }
     cell.width = collectionView.bounds.width
     return cell
+  }
+  
+  @objc func refresh() {
+    posts.removeAll()
+    fetchUserPosts()
   }
   
 }
