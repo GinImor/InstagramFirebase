@@ -27,6 +27,7 @@
 		DC361E7825FB296800E09675 /* InstagramFirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */; };
 		DC361E7F25FB53D100E09675 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7E25FB53D100E09675 /* UserSearchController.swift */; };
 		DC361E8125FB57A400E09675 /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E8025FB57A400E09675 /* UserSearchCell.swift */; };
+		DC647F792600634C0079579D /* Date+timeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC647F782600634C0079579D /* Date+timeAgo.swift */; };
 		DC766B4325F9A64C0051EA14 /* PostPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */; };
 		DC766B4525F9D8410051EA14 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4425F9D8410051EA14 /* Post.swift */; };
 		DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */; };
@@ -67,6 +68,7 @@
 		DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramFirebaseService.swift; sourceTree = "<group>"; };
 		DC361E7E25FB53D100E09675 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		DC361E8025FB57A400E09675 /* UserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchCell.swift; sourceTree = "<group>"; };
+		DC647F782600634C0079579D /* Date+timeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+timeAgo.swift"; sourceTree = "<group>"; };
 		DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPhotoController.swift; sourceTree = "<group>"; };
 		DC766B4425F9D8410051EA14 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		DC766B4625F9F0D80051EA14 /* UserProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileCell.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				DC9D2A4D25F4FE7700AA4AAA /* UIImage+colorConstructor.swift */,
 				DC168C5825F3D27700D9E1D4 /* UIStackView+predefinedStackView.swift */,
 				DC0BB25925F7165600F7FE5E /* UIViewController+navInTabBar.swift */,
+				DC647F782600634C0079579D /* Date+timeAgo.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				DC766B4D25FA169D0051EA14 /* HomeCell.swift in Sources */,
 				DC766B5025FA1D170051EA14 /* InstagramFileManager.swift in Sources */,
 				DC78820025FF59CF002E4F5F /* LoadingButton.swift in Sources */,
+				DC647F792600634C0079579D /* Date+timeAgo.swift in Sources */,
 				DC88672E25F879E900C92257 /* PhotoSelectorController.swift in Sources */,
 				DC168C4125F3C56700D9E1D4 /* AppDelegate.swift in Sources */,
 				DC0BB25525F714BE00F7FE5E /* MainTabBarController.swift in Sources */,

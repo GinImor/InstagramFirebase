@@ -12,9 +12,9 @@ import Firebase
 enum InstagramFirebaseService {
   
   enum DatabaseChild {
-    case users(uid: String?)
-    case following(uid: String?, followedUid: String?)
-    case posts(uid: String?, needPostId: Bool)
+    case users(uid: String? = nil)
+    case following(uid: String? = nil, followedUid: String? = nil)
+    case posts(uid: String? = nil, needPostId: Bool = false)
     
     var path: DatabaseReference {
       switch self {
@@ -113,9 +113,34 @@ enum InstagramFirebaseService {
     fetchUserWithUid(nil, completion: completion)
   }
   
+  static func fetchPostsForCurrentUserAndFollowings(completion: @escaping (([Post]?) -> Void)) {
+    guard let currentUserUid = currentUser?.uid else { return }
+    fetchPostsForUid(currentUserUid) { (posts) in
+      completion(posts)
+    }
+    DatabaseChild.following(uid: currentUserUid).path.observe(.value, with: { (snapshot) in
+      guard let followingsUids = (snapshot.value as? [String: Any])?.keys else { return }
+      for uid in followingsUids {
+        fetchPostsForUid(uid) { (posts) in
+          completion(posts)
+        }
+      }
+    }) { (error) in
+      print("fetch following error", error)
+    }
+  }
+  
+  static func fetchPostsForUid(_ uid: String, completion: @escaping (([Post]?) -> Void)) {
+    fetchUserWithUid(uid) { (user) in
+      fetchPostsForUser(user) { (posts) in
+        completion(posts)
+      }
+    }
+  }
+  
   static func fetchUserWithUid(_ uid: String?, completion: @escaping (User) -> Void) {
     guard let uid = uid ?? currentUser?.uid else { return }
-    DatabaseChild.users(uid: uid).path.observeSingleEvent(of: .value, with: {snapshot in
+    DatabaseChild.users(uid: uid).path.observeSingleEvent(of: .value, with: { snapshot in
       print("snapshot: \(snapshot.value ?? "")")
       guard let user = User(uid: uid, dic: snapshot.value) else { return }
       completion(user)
@@ -137,7 +162,7 @@ enum InstagramFirebaseService {
     }
   }
   
-  static func fetchPostsForUser(_ user: User, completion: @escaping ([Post]) -> Void) {
+  static func fetchPostsForUser(_ user: User, completion: @escaping ([Post]?) -> Void) {
     let postRef = DatabaseChild.posts(uid: user.uid, needPostId: false).path
       postRef.observeSingleEvent(of: .value, with: { (snapshot) in
         print("user post snapshot value: \(String(describing: snapshot.value))")

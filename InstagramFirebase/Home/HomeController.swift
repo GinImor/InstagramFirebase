@@ -36,12 +36,14 @@ class HomeController: UICollectionViewController {
   }
   
   private func fetchUserPosts() {
-    InstagramFirebaseService.fetchCurrentUser { (user) in
-      InstagramFirebaseService.fetchPostsForUser(user) { (posts) in
-        DispatchQueue.main.async {
-          self.posts = posts
-          self.collectionView.reloadData()
+    InstagramFirebaseService.fetchPostsForCurrentUserAndFollowings { (posts) in
+      guard let posts = posts else { return }
+      DispatchQueue.main.async {
+        self.posts.append(contentsOf: posts)
+        self.posts.sort { (post1, post2) in
+          post1.creationDate > post2.creationDate
         }
+        self.collectionView.reloadData()
       }
     }
   }

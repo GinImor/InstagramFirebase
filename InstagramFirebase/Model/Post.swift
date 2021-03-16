@@ -12,10 +12,13 @@ struct Post {
   let user: User?
   let imageUrl: String
   let caption: String
+  let creationDate: Date
   
   init(user: User?, postDic: [String: Any]) {
     self.user = user
     self.imageUrl = postDic["imageUrl"] as? String ?? ""
     self.caption = postDic["caption"] as? String ?? ""
+    let timeInterval = postDic["creationDate"] as? TimeInterval ?? 0
+    self.creationDate = Date(timeIntervalSince1970: timeInterval)
   }
 }

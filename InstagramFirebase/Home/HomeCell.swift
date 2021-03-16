@@ -55,6 +55,7 @@ class HomeCell: UICollectionViewCell {
     usernameLabel.text = post.user?.username
     photoImageView.fetchImage(withUrl: post.imageUrl)
     captionLabel.attributedText = attributedTextForPost()
+    creationLabel.text = post.creationDate.timeAgo()
   }
   
   private func attributedTextForPost() -> NSAttributedString {
