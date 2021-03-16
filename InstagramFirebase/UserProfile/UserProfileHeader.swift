@@ -9,10 +9,37 @@
 import UIKit
 
 class UserProfileHeadder: UICollectionViewCell {
-
-  var user: User? {
+  
+  /// need to deal with the first time input user is nil
+  /// for current user, enable the editProfileOrFollowButton when finished fetching profile image
+  /// otherwise, enable the button after got the follow status
+  var isCurrentUser = false {
     didSet {
+      if !isCurrentUser { editProfileOrFollowButton.showLoading() }
+    }
+  }
+
+  var user: User! {
+    didSet {
+      guard user != nil else { return }
       fetchProfileImage()
+      setupEditProfileOrFollowButton()
+    }
+  }
+  
+  var isFollowing: Bool = false {
+    didSet {
+      if isFollowing {
+        editProfileOrFollowButton.setTitle("unfollow", for: .normal)
+        editProfileOrFollowButton.backgroundColor = .white
+        editProfileOrFollowButton.setTitleColor(.black, for: .normal)
+      } else {
+        editProfileOrFollowButton.setTitle("follow", for: .normal)
+        editProfileOrFollowButton.backgroundColor = UIColor(rgb: (17, 154, 237))
+        editProfileOrFollowButton.setTitleColor(.white, for: .normal)
+        editProfileOrFollowButton.layer.borderColor = UIColor(white: 0.0, alpha: 0.2).cgColor
+        editProfileOrFollowButton.layer.borderWidth = 1.0
+      }
     }
   }
   
@@ -36,14 +63,16 @@ class UserProfileHeadder: UICollectionViewCell {
   private lazy var postLabel = postRelatedLabel(type: "post")
   private lazy var followingLabel = postRelatedLabel(type: "following")
   private lazy var followerLabel = postRelatedLabel(type: "follower")
-  private var editProfileButton: UIButton = {
-    let button = UIButton(type: .system)
+  private lazy var editProfileOrFollowButton: LoadingButton = {
+    let button = LoadingButton(type: .system)
     button.setTitle("Edit Profile", for: .normal)
     button.setTitleColor(.black, for: .normal)
     button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+    button.isEnabled = false
     button.layer.borderColor = UIColor.lightGray.cgColor
     button.layer.borderWidth = 1
     button.layer.cornerRadius = 3
+    button.addTarget(self, action: #selector(handleEditOrFollow), for: .touchUpInside)
     return button
   }()
   
@@ -70,26 +99,19 @@ class UserProfileHeadder: UICollectionViewCell {
   }
   
   private func setupProfileStack() {
-    let contentStack = profileContentStack()
     UIStackView.verticalStack(
-      arrangedSubviews: [contentStack, displayModeStack()],
+      arrangedSubviews: [profileContentStack(), displayModeStack()],
       pinToSuperview: self,
-      edgeInsets: UIEdgeInsets(top: 2 * UIView.defaultPadding, left: 0, bottom: 0, right: 0)
-    )
-    
-    contentStack.isLayoutMarginsRelativeArrangement = true
-    contentStack.layoutMargins = UIEdgeInsets(
-      top: 0,
-      left: UIView.defaultPadding,
-      bottom: 0,
-      right: UIView.defaultPadding
+      edgeInsets: UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
     )
   }
   
   private func profileContentStack() -> UIStackView{
     let stack = UIStackView(arrangedSubviews: [profileImageUsernameStack(), postsAndEditProfileStack()])
     stack.alignment = .top
-    stack.spacing = 2 * UIView.defaultPadding
+    stack.spacing = 16
+    stack.isLayoutMarginsRelativeArrangement = true
+    stack.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8 )
     return stack
   }
   
@@ -103,7 +125,9 @@ class UserProfileHeadder: UICollectionViewCell {
   }
   
   private func postsAndEditProfileStack() -> UIStackView {
-    return UIStackView.verticalStack(arrangedSubviews: [postsStack(), editProfileButton])
+    let stack = UIStackView.verticalStack(arrangedSubviews: [postsStack(), editProfileOrFollowButton])
+    editProfileOrFollowButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    return stack
   }
   
   private func postsStack() -> UIStackView {
@@ -120,7 +144,42 @@ class UserProfileHeadder: UICollectionViewCell {
   }
   
   private func fetchProfileImage() {
-    profileImageView.fetchImage(withUrl: self.user?.profileImageUrl)
+    profileImageView.fetchImage(withUrl: self.user?.profileImageUrl) {
+      if self.isCurrentUser {
+        DispatchQueue.main.async {
+          self.editProfileOrFollowButton.isEnabled = true
+        }
+      }
+    }
+  }
+  
+  private func setupEditProfileOrFollowButton() {
+    if isCurrentUser {
+      
+    } else {
+      InstagramFirebaseService.isCurrentUserFollowing(user) { isFollowing, error in
+        DispatchQueue.main.async {
+          self.editProfileOrFollowButton.hideLoading()
+          guard error == nil, isFollowing != nil else { return }
+          self.isFollowing = isFollowing!
+        }
+      }
+    }
+  }
+  
+  @objc func handleEditOrFollow() {
+    if isCurrentUser {
+      
+    } else {
+      editProfileOrFollowButton.showLoading()
+      InstagramFirebaseService.follow(!isFollowing, user: user) { (error) in
+        self.editProfileOrFollowButton.hideLoading()
+        guard error == nil else { return }
+        UIView.transition(with: self.editProfileOrFollowButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
+          self.isFollowing = !self.isFollowing
+        })
+      }
+    }
   }
   
   private func displayModeButton(imageNamed: String) -> UIButton {

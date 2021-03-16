@@ -65,6 +65,7 @@ class MainTabBarController: UITabBarController {
     let userProfileSelectedImage = UIImage(systemName: "person.fill")!
     let userProfileController = UserProfileController(collectionViewLayout: profileFlowLayout)
     
+    
     viewControllers = [
       homeController.wrapInNav(tabBarImage: homeImage, selectedImage: homeSelectedImage),
       searchController.wrapInNav(tabBarImage: searchImage, selectedImage: searchSelectedImage),

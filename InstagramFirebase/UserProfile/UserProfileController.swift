@@ -96,6 +96,7 @@ class UserProfileController: UICollectionViewController {
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.userProfileHeader, for: indexPath) as! UserProfileHeadder
     header.user = user
+    header.isCurrentUser = uid == nil ? true : false
     return header
   }
   

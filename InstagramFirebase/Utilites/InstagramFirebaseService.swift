@@ -13,12 +13,17 @@ enum InstagramFirebaseService {
   
   enum DatabaseChild {
     case users(uid: String?)
+    case following(uid: String?, followedUid: String?)
     case posts(uid: String?, needPostId: Bool)
     
     var path: DatabaseReference {
       switch self {
       case let .users(uid):
         return database.child("Users/\(uid ?? "")")
+      case let .following(uid, followedUid):
+        if uid == nil { return database.child("Followings") }
+        else if followedUid == nil { return database.child("Followings/\(uid!)") }
+        return database.child("Followings/\(uid!)/\(followedUid!)")
       case let .posts(uid, needPostId):
         if uid == nil { return database.child("Posts") }
         else if !needPostId { return database.child("Posts/\(uid!)") }
@@ -39,6 +44,31 @@ enum InstagramFirebaseService {
   
   static var hasCurrentUser: Bool {
     currentUser != nil
+  }
+  
+  static func isCurrentUser(_ user: User?) -> Bool {
+    currentUser?.uid == user?.uid && user?.uid != nil
+  }
+  
+  static func isCurrentUserFollowing(
+    _ user: User?,
+    completion: @escaping (Bool?, Error?) -> Void)
+  {
+    guard let uid = currentUser?.uid, let followingUid = user?.uid else {
+      completion(nil, NSError())
+      return
+    }
+    DatabaseChild.following(
+      uid: uid, followedUid: followingUid
+    ).path.observeSingleEvent(of: .value, with: { (snapshot) in
+      if let value = snapshot.value as? Int, value == 1 {
+        completion(true, nil)
+      } else {
+        completion(false, nil)
+      }
+    }) { (error) in
+      completion(nil, error)
+    }
   }
   
   static func pathString(_ child: String, subChilds: [String]) -> String{
@@ -130,7 +160,7 @@ enum InstagramFirebaseService {
       guard let postDic = snapshot.value as? [String: Any] else { return }
       let post = Post(user: user, postDic: postDic)
       completion(post)
-      }) { (error) in
+    }) { (error) in
       print("user profile fetch posts error: \(error)")
     }
   }
@@ -149,8 +179,7 @@ enum InstagramFirebaseService {
         return
       }
       guard let uid = authResult?.user.uid,
-        let imageData = profileImageDataProvider()
-        else {
+        let imageData = profileImageDataProvider() else {
           completion(NSError())
           return
       }
@@ -170,6 +199,40 @@ enum InstagramFirebaseService {
           }
         )
       }
+    }
+  }
+  
+  static func follow(_ aboutToFollow: Bool, user: User, completion: @escaping (Error?) -> Void) {
+    if aboutToFollow {
+      follow(user: user, completion: completion)
+    } else {
+      unfollow(user: user, completion: completion)
+    }
+  }
+  
+  static func follow(user: User, completion: @escaping (Error?) -> Void) {
+    guard let uid = currentUser?.uid else {
+      completion(NSError())
+      return
+    }
+    let followingUsersMetaData = [user.uid: 1]
+    let path = DatabaseChild.following(uid: uid, followedUid: nil).path
+    path.updateChildValues(followingUsersMetaData) { (error, _) in
+      guard error == nil else {
+        completion(error)
+        return
+      }
+      completion(nil)
+    }
+  }
+  
+  static func unfollow(user: User, completion: @escaping (Error?) -> Void) {
+    guard let uid = currentUser?.uid else {
+      completion(NSError())
+      return
+    }
+    DatabaseChild.following(uid: uid, followedUid: user.uid).path.removeValue { (error, _) in
+      completion(error)
     }
   }
   
