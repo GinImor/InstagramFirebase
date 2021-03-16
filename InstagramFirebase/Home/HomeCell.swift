@@ -17,8 +17,8 @@ class HomeCell: UICollectionViewCell {
   var width: CGFloat? {
     didSet {
       guard width != nil && !widthConstraint.isActive else { return }
-      widthConstraint.isActive = true
       widthConstraint.constant = width!
+      widthConstraint.isActive = true
     }
   }
   
@@ -64,5 +64,6 @@ class HomeCell: UICollectionViewCell {
     result.append(captionPart)
     return result
   }
+  
 }
 

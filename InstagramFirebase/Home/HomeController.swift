@@ -40,7 +40,8 @@ class HomeController: UICollectionViewController {
   
   private func setupLayout() {
     guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-    flowLayout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: 500)// UICollectionViewFlowLayout.automaticSize
+    let collectionWidth = collectionView.frame.width
+    flowLayout.estimatedItemSize = CGSize(width: collectionWidth, height: collectionWidth + 200)
   }
   
   private func fetchUserPosts() {

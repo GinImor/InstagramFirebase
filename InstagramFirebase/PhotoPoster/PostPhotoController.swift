@@ -34,8 +34,7 @@ class PostPhotoController: UIViewController {
   
   var textView: UITextView = {
     let tv = UITextView()
-    tv.font = UIFont.preferredFont(forTextStyle: .body)
-    tv.backgroundColor = .blue
+    tv.font = UIFont.preferredFont(forTextStyle: .callout)
     return tv
   }()
   
