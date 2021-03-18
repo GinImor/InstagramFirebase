@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CameraController" customModule="InstagramFirebase" customModuleProvider="target">
+            <connections>
+                <outlet property="cameraButton" destination="6ZZ-hF-Ido" id="9eV-qP-Esi"/>
+                <outlet property="cameraUnavailableLabel" destination="Hn4-SS-Vp3" id="vUu-0D-LVQ"/>
+                <outlet property="captureModeControl" destination="Ofl-1H-uje" id="Cyd-u9-QJV"/>
+                <outlet property="capturingLivePhotoLabel" destination="pqT-Jg-qvo" id="YkL-Tr-A6O"/>
+                <outlet property="depthDataDeliveryButton" destination="N7M-bT-6ZR" id="Ufp-ZU-OSc"/>
+                <outlet property="livePhotoModeButton" destination="zFL-YW-Ftz" id="1ZL-h3-6Pe"/>
+                <outlet property="photoButton" destination="NOD-ZI-ptb" id="fJa-BW-HGr"/>
+                <outlet property="photoQualityPrioritizationSegControl" destination="8Fc-VN-iY4" id="pqz-Ta-BhE"/>
+                <outlet property="portraitEffectsMatteDeliveryButton" destination="igm-Hu-1gj" id="FGd-NF-XR6"/>
+                <outlet property="previewView" destination="Kpv-4J-V0u" id="1Xy-x5-SD1"/>
+                <outlet property="recordButton" destination="qTX-Ny-aSU" id="D2V-8B-0Ub"/>
+                <outlet property="resumeButton" destination="uA2-k8-Nvo" id="ezW-On-6gk"/>
+                <outlet property="semanticSegmentationMatteDeliveryButton" destination="4Qc-i8-OkF" id="KvR-a0-5fe"/>
+                <outlet property="view" destination="wbb-R5-1tI" id="Q9g-YA-iCI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="wbb-R5-1tI">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kpv-4J-V0u" userLabel="Preview" customClass="PreviewView" customModule="AVCam" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <gestureRecognizers/>
+                </view>
+                <segmentedControl opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ofl-1H-uje" userLabel="Capture Mode">
+                    <rect key="frame" x="163" y="694" width="88" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Ofl-1H-uje" secondAttribute="height" multiplier="80:40" id="EkJ-xl-yWj"/>
+                        <constraint firstAttribute="height" constant="44" id="Fv1-oK-d1Y"/>
+                    </constraints>
+                    <segments>
+                        <segment title="" image="PhotoSelector"/>
+                        <segment title="" image="MovieSelector"/>
+                    </segments>
+                    <connections>
+                        <action selector="toggleCaptureMode:" destination="-1" eventType="valueChanged" id="5mI-le-bB0"/>
+                    </connections>
+                </segmentedControl>
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Live" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqT-Jg-qvo" userLabel="Capturing Live Photo">
+                    <rect key="frame" x="191.5" y="154" width="31" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </label>
+                <label hidden="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera Unavailable" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hn4-SS-Vp3" userLabel="Camera Unavailable">
+                    <rect key="frame" x="103" y="433.5" width="208" height="29"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uA2-k8-Nvo" userLabel="Resume">
+                    <rect key="frame" x="124.5" y="428.5" width="165" height="39"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                    <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
+                    <state key="normal" title="Tap to resume">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="resumeInterruptedSession:" destination="-1" eventType="touchUpInside" id="WrH-gy-qWy"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTX-Ny-aSU" userLabel="Record">
+                    <rect key="frame" x="30" y="762" width="60" height="60"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="CaptureVideo">
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="toggleMovieRecording:" destination="-1" eventType="touchUpInside" id="0Dj-BG-jBZ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NOD-ZI-ptb" userLabel="Photo">
+                    <rect key="frame" x="177" y="762" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="H33-Qc-i10"/>
+                        <constraint firstAttribute="width" constant="60" id="Ls2-FR-Wdn"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="CapturePhoto">
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="capturePhoto:" destination="-1" eventType="touchUpInside" id="uSp-kF-NX3"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ZZ-hF-Ido" userLabel="Camera">
+                    <rect key="frame" x="324" y="762" width="60" height="60"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="FlipCamera">
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="changeCamera:" destination="-1" eventType="touchUpInside" id="DeT-74-Bxm"/>
+                    </connections>
+                </button>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="8Fc-VN-iY4">
+                    <rect key="frame" x="92" y="114" width="230" height="26"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="khd-TB-mSP"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Speed"/>
+                        <segment title="Balanced"/>
+                        <segment title="Quality"/>
+                    </segments>
+                    <connections>
+                        <action selector="togglePhotoQualityPrioritizationMode:" destination="-1" eventType="valueChanged" id="PDz-lE-OFg"/>
+                    </connections>
+                </segmentedControl>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Qc-i8-OkF" userLabel="SSM">
+                    <rect key="frame" x="334" y="54" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="PmP-fA-lWT"/>
+                        <constraint firstAttribute="height" constant="50" id="zvv-gJ-BbX"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="ssm"/>
+                    <connections>
+                        <action selector="toggleSemanticSegmentationMatteDeliveryMode:" destination="-1" eventType="touchUpInside" id="ksk-XL-lU4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igm-Hu-1gj" userLabel="Portrait Effects Matte Delivery">
+                    <rect key="frame" x="232" y="54" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="E2I-kL-NBI"/>
+                        <constraint firstAttribute="width" constant="50" id="TcO-LV-BWh"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="PortraitMatteON"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="togglePortraitEffectsMatteDeliveryMode:" destination="-1" eventType="touchUpInside" id="wee-uE-Yu1"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N7M-bT-6ZR" userLabel="Depth Data Delivery">
+                    <rect key="frame" x="132" y="54" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="6hc-F2-6EN"/>
+                        <constraint firstAttribute="height" constant="50" id="j4I-IF-XWj"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="DepthON"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="toggleDepthDataDeliveryMode:" destination="-1" eventType="touchUpInside" id="lwb-MN-yg4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFL-YW-Ftz" userLabel="Live Photo Mode">
+                    <rect key="frame" x="30" y="54" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="169-YO-3GO"/>
+                        <constraint firstAttribute="height" constant="50" id="CyW-Mp-8KI"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="LivePhotoON"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="toggleLivePhotoMode:" destination="-1" eventType="touchUpInside" id="9UR-29-wPr"/>
+                    </connections>
+                </button>
+                <button opaque="NO" alpha="0.5" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtA-5z-Hqc" userLabel="Live Photo Mode">
+                    <rect key="frame" x="16" y="423" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Vhz-ym-e5l"/>
+                        <constraint firstAttribute="width" constant="50" id="w8p-23-onn"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" image="arrow.down" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="down:" destination="-1" eventType="touchUpInside" id="uvN-6U-Pi4"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="N7M-bT-6ZR" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" constant="38" id="0Ar-Oc-cns"/>
+                <constraint firstItem="N7M-bT-6ZR" firstAttribute="top" secondItem="zFL-YW-Ftz" secondAttribute="top" id="0ic-6s-tOq"/>
+                <constraint firstItem="4Qc-i8-OkF" firstAttribute="centerX" secondItem="igm-Hu-1gj" secondAttribute="centerX" id="0qV-FE-bUx"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="centerY" secondItem="Ofl-1H-uje" secondAttribute="centerY" id="1Lj-9j-4PL"/>
+                <constraint firstItem="zFL-YW-Ftz" firstAttribute="leading" secondItem="GyV-yR-xy2" secondAttribute="leading" constant="60" id="1kC-cs-pGb">
+                    <variation key="heightClass=compact" constant="30"/>
+                    <variation key="heightClass=regular" constant="30"/>
+                </constraint>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="trailing" secondItem="6ZZ-hF-Ido" secondAttribute="trailing" constant="30" id="1nK-kc-W5J"/>
+                <constraint firstItem="Kpv-4J-V0u" firstAttribute="leading" secondItem="GyV-yR-xy2" secondAttribute="leading" id="2SQ-xh-FLJ"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="top" secondItem="qTX-Ny-aSU" secondAttribute="top" id="2gc-ch-MA5"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="height" secondItem="qTX-Ny-aSU" secondAttribute="height" id="3cA-jO-zQ0"/>
+                <constraint firstItem="pqT-Jg-qvo" firstAttribute="top" secondItem="GyV-yR-xy2" secondAttribute="top" constant="40" id="4ci-om-9We"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="centerX" secondItem="wbb-R5-1tI" secondAttribute="centerX" id="4e3-3s-gFe"/>
+                <constraint firstItem="Hn4-SS-Vp3" firstAttribute="centerX" secondItem="GyV-yR-xy2" secondAttribute="centerX" id="6dA-x1-4Fu"/>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="centerX" secondItem="NOD-ZI-ptb" secondAttribute="centerX" id="7qM-Mf-nkN"/>
+                <constraint firstItem="8Fc-VN-iY4" firstAttribute="bottom" secondItem="pqT-Jg-qvo" secondAttribute="top" constant="-15" id="AR5-zF-3ah">
+                    <variation key="heightClass=compact" constant="-5"/>
+                </constraint>
+                <constraint firstItem="uA2-k8-Nvo" firstAttribute="centerX" secondItem="GyV-yR-xy2" secondAttribute="centerX" id="AuH-Vb-QMD"/>
+                <constraint firstItem="N7M-bT-6ZR" firstAttribute="top" secondItem="GyV-yR-xy2" secondAttribute="top" constant="10" id="BdU-QD-eaW"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="width" secondItem="qTX-Ny-aSU" secondAttribute="width" id="FPF-ql-ihn"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="centerX" secondItem="wbb-R5-1tI" secondAttribute="centerX" constant="150" id="FTb-5S-bXK"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" constant="-38" id="HNA-r5-nXa"/>
+                <constraint firstItem="vtA-5z-Hqc" firstAttribute="leading" secondItem="Kpv-4J-V0u" secondAttribute="leading" constant="16" id="HPo-1T-1lo"/>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="bottom" secondItem="qTX-Ny-aSU" secondAttribute="bottom" constant="20" id="K82-ff-rhJ"/>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="bottom" secondItem="zFL-YW-Ftz" secondAttribute="bottom" constant="30" id="L0f-oa-Gaa">
+                    <variation key="heightClass=compact" constant="30"/>
+                </constraint>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="trailing" secondItem="NOD-ZI-ptb" secondAttribute="trailing" constant="40" id="NG2-s6-Eau"/>
+                <constraint firstItem="4Qc-i8-OkF" firstAttribute="top" secondItem="GyV-yR-xy2" secondAttribute="top" constant="10" id="PPq-si-XdW"/>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="trailing" secondItem="4Qc-i8-OkF" secondAttribute="trailing" constant="30" id="Qn1-au-Xpc"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="leading" secondItem="Ofl-1H-uje" secondAttribute="trailing" constant="80" id="RRa-4t-Upg">
+                    <variation key="heightClass=compact" constant="20"/>
+                </constraint>
+                <constraint firstItem="vtA-5z-Hqc" firstAttribute="centerY" secondItem="Kpv-4J-V0u" secondAttribute="centerY" id="Rae-vr-OeQ"/>
+                <constraint firstItem="Ofl-1H-uje" firstAttribute="centerX" secondItem="NOD-ZI-ptb" secondAttribute="centerX" id="Rvp-1D-8Me"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="top" secondItem="6ZZ-hF-Ido" secondAttribute="top" id="Tka-xe-IGf"/>
+                <constraint firstItem="N7M-bT-6ZR" firstAttribute="centerX" secondItem="wbb-R5-1tI" secondAttribute="centerX" constant="-50" id="Tus-hR-IiN"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="top" secondItem="Ofl-1H-uje" secondAttribute="bottom" constant="24" id="UMn-Z7-jb5"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" id="Upu-aA-o4A"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="centerX" secondItem="qTX-Ny-aSU" secondAttribute="centerX" id="V7c-UC-1oO"/>
+                <constraint firstItem="Hn4-SS-Vp3" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" id="XT4-tR-5qx"/>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="width" secondItem="6ZZ-hF-Ido" secondAttribute="width" id="ZBg-eb-hqi"/>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="trailing" secondItem="4Qc-i8-OkF" secondAttribute="trailing" constant="30" id="ZKn-fm-FhT"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" constant="-38" id="aGn-dL-C3l"/>
+                <constraint firstItem="N7M-bT-6ZR" firstAttribute="leading" secondItem="GyV-yR-xy2" secondAttribute="leading" constant="30" id="etP-TS-Bsk">
+                    <variation key="heightClass=compact" constant="20"/>
+                </constraint>
+                <constraint firstItem="NOD-ZI-ptb" firstAttribute="height" secondItem="6ZZ-hF-Ido" secondAttribute="height" id="fRg-7v-SW1"/>
+                <constraint firstItem="pqT-Jg-qvo" firstAttribute="centerX" secondItem="GyV-yR-xy2" secondAttribute="centerX" id="fxA-lD-06g"/>
+                <constraint firstItem="Ofl-1H-uje" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="N7M-bT-6ZR" secondAttribute="trailing" constant="8" symbolic="YES" id="gTL-ka-oWI"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="top" secondItem="4Qc-i8-OkF" secondAttribute="bottom" constant="52" id="gX5-7N-yyt"/>
+                <constraint firstItem="zFL-YW-Ftz" firstAttribute="centerX" secondItem="N7M-bT-6ZR" secondAttribute="centerX" id="i1E-7f-ezZ"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="centerX" secondItem="N7M-bT-6ZR" secondAttribute="centerX" id="jx9-YD-kmx"/>
+                <constraint firstItem="8Fc-VN-iY4" firstAttribute="centerX" secondItem="GyV-yR-xy2" secondAttribute="centerX" id="l0h-M3-OKf"/>
+                <constraint firstItem="pqT-Jg-qvo" firstAttribute="top" secondItem="N7M-bT-6ZR" secondAttribute="bottom" constant="50" id="m4z-M1-Hj9"/>
+                <constraint firstItem="GyV-yR-xy2" firstAttribute="bottom" secondItem="NOD-ZI-ptb" secondAttribute="bottom" constant="40" id="m8A-Q4-zFn"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="top" secondItem="N7M-bT-6ZR" secondAttribute="top" id="mZ7-Ij-v5Z"/>
+                <constraint firstItem="6ZZ-hF-Ido" firstAttribute="centerX" secondItem="qTX-Ny-aSU" secondAttribute="centerX" id="mZa-mL-uMs"/>
+                <constraint firstItem="Kpv-4J-V0u" firstAttribute="bottom" secondItem="wbb-R5-1tI" secondAttribute="bottom" id="owQ-Ll-Md3"/>
+                <constraint firstItem="6ZZ-hF-Ido" firstAttribute="top" secondItem="GyV-yR-xy2" secondAttribute="top" constant="30" id="qze-wo-E3Q">
+                    <variation key="heightClass=compact" constant="20"/>
+                </constraint>
+                <constraint firstItem="4Qc-i8-OkF" firstAttribute="top" secondItem="N7M-bT-6ZR" secondAttribute="top" id="sPz-Zb-Y1c"/>
+                <constraint firstItem="uA2-k8-Nvo" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" id="tID-No-CnL"/>
+                <constraint firstItem="Kpv-4J-V0u" firstAttribute="trailing" secondItem="GyV-yR-xy2" secondAttribute="trailing" id="tf1-oc-V8A"/>
+                <constraint firstItem="qTX-Ny-aSU" firstAttribute="leading" secondItem="GyV-yR-xy2" secondAttribute="leading" constant="30" id="vBD-HL-xsF"/>
+                <constraint firstItem="4Qc-i8-OkF" firstAttribute="centerX" secondItem="igm-Hu-1gj" secondAttribute="centerX" id="vKp-bs-wtQ"/>
+                <constraint firstItem="4Qc-i8-OkF" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" constant="-130" id="vpo-Fa-9P5"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="centerX" secondItem="wbb-R5-1tI" secondAttribute="centerX" constant="50" id="x9K-6I-IA5"/>
+                <constraint firstItem="4Qc-i8-OkF" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" constant="-140" id="yAn-eT-mVj"/>
+                <constraint firstItem="igm-Hu-1gj" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" id="zTV-qp-7BL"/>
+                <constraint firstItem="Kpv-4J-V0u" firstAttribute="centerY" secondItem="wbb-R5-1tI" secondAttribute="centerY" id="zc4-0W-WGw"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="GyV-yR-xy2"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="K82-ff-rhJ"/>
+                    <exclude reference="L0f-oa-Gaa"/>
+                    <exclude reference="NG2-s6-Eau"/>
+                    <exclude reference="Qn1-au-Xpc"/>
+                    <exclude reference="ZKn-fm-FhT"/>
+                    <exclude reference="i1E-7f-ezZ"/>
+                    <exclude reference="0Ar-Oc-cns"/>
+                    <exclude reference="etP-TS-Bsk"/>
+                    <exclude reference="4e3-3s-gFe"/>
+                    <exclude reference="FTb-5S-bXK"/>
+                    <exclude reference="HNA-r5-nXa"/>
+                    <exclude reference="aGn-dL-C3l"/>
+                    <exclude reference="gX5-7N-yyt"/>
+                    <exclude reference="jx9-YD-kmx"/>
+                    <exclude reference="x9K-6I-IA5"/>
+                    <exclude reference="zTV-qp-7BL"/>
+                    <exclude reference="4ci-om-9We"/>
+                    <exclude reference="0qV-FE-bUx"/>
+                    <exclude reference="PPq-si-XdW"/>
+                    <exclude reference="sPz-Zb-Y1c"/>
+                    <exclude reference="vKp-bs-wtQ"/>
+                    <exclude reference="vpo-Fa-9P5"/>
+                    <exclude reference="yAn-eT-mVj"/>
+                    <exclude reference="gTL-ka-oWI"/>
+                    <exclude reference="1Lj-9j-4PL"/>
+                    <exclude reference="RRa-4t-Upg"/>
+                    <exclude reference="Upu-aA-o4A"/>
+                    <exclude reference="V7c-UC-1oO"/>
+                    <exclude reference="mZa-mL-uMs"/>
+                    <exclude reference="qze-wo-E3Q"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=compact">
+                <mask key="constraints">
+                    <exclude reference="1nK-kc-W5J"/>
+                    <exclude reference="7qM-Mf-nkN"/>
+                    <include reference="K82-ff-rhJ"/>
+                    <include reference="L0f-oa-Gaa"/>
+                    <include reference="NG2-s6-Eau"/>
+                    <exclude reference="m8A-Q4-zFn"/>
+                    <exclude reference="1kC-cs-pGb"/>
+                    <include reference="i1E-7f-ezZ"/>
+                    <include reference="0Ar-Oc-cns"/>
+                    <exclude reference="0ic-6s-tOq"/>
+                    <exclude reference="BdU-QD-eaW"/>
+                    <exclude reference="Tus-hR-IiN"/>
+                    <include reference="etP-TS-Bsk"/>
+                    <include reference="AR5-zF-3ah"/>
+                    <exclude reference="4e3-3s-gFe"/>
+                    <include reference="jx9-YD-kmx"/>
+                    <exclude reference="mZ7-Ij-v5Z"/>
+                    <exclude reference="zTV-qp-7BL"/>
+                    <include reference="4ci-om-9We"/>
+                    <exclude reference="m4z-M1-Hj9"/>
+                    <exclude reference="Rvp-1D-8Me"/>
+                    <include reference="gTL-ka-oWI"/>
+                    <exclude reference="vBD-HL-xsF"/>
+                    <include reference="1Lj-9j-4PL"/>
+                    <exclude reference="2gc-ch-MA5"/>
+                    <include reference="RRa-4t-Upg"/>
+                    <exclude reference="Tka-xe-IGf"/>
+                    <exclude reference="UMn-Z7-jb5"/>
+                    <include reference="Upu-aA-o4A"/>
+                    <include reference="V7c-UC-1oO"/>
+                    <include reference="mZa-mL-uMs"/>
+                    <include reference="qze-wo-E3Q"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=compact-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="aGn-dL-C3l"/>
+                    <include reference="0qV-FE-bUx"/>
+                    <include reference="vpo-Fa-9P5"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=compact-widthClass=regular">
+                <mask key="constraints">
+                    <include reference="HNA-r5-nXa"/>
+                    <include reference="gX5-7N-yyt"/>
+                    <include reference="vKp-bs-wtQ"/>
+                    <include reference="yAn-eT-mVj"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="Qn1-au-Xpc"/>
+                    <include reference="x9K-6I-IA5"/>
+                    <include reference="PPq-si-XdW"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=regular">
+                <mask key="constraints">
+                    <include reference="ZKn-fm-FhT"/>
+                    <include reference="FTb-5S-bXK"/>
+                    <include reference="sPz-Zb-Y1c"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="-645" y="-1274"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="CapturePhoto" width="150" height="150"/>
+        <image name="CaptureVideo" width="150" height="150"/>
+        <image name="DepthON" width="150" height="150"/>
+        <image name="FlipCamera" width="150" height="150"/>
+        <image name="LivePhotoON" width="150" height="150"/>
+        <image name="MovieSelector" width="72" height="72"/>
+        <image name="PhotoSelector" width="72" height="72"/>
+        <image name="PortraitMatteON" width="150" height="150"/>
+        <image name="arrow.down" catalog="system" width="120" height="128"/>
+        <image name="ssm" width="145" height="150"/>
+    </resources>
+</document>

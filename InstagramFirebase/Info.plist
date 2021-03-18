@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>InstagramFirebase uses the microphone to record sound during Live Photos and movies.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>InstagramFirebase need to access the camera to take pictures.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app need to use photos from your album to set avatar or post.</string>
+	<string>InstagramFirebase need to use photos from your album to set avatar or post.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

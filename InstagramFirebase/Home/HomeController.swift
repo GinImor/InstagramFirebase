@@ -25,7 +25,18 @@ class HomeController: UICollectionViewController {
   }
   
   private func setupNavigationBar() {
+    navigationController?.navigationBar.tintColor = .black
     navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo2"))
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      image: UIImage(systemName: "camera"),
+      style: .plain,
+      target: self,
+      action: #selector(takePicture))
+  }
+  
+  @objc func takePicture() {
+    let cameraController = CameraController(nibName: "CameraController", bundle: nil)
+    present(cameraController, animated: true)
   }
   
   private func setupCollectionView() {
