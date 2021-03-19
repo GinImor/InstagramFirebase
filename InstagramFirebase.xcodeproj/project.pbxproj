@@ -24,6 +24,7 @@
 		DC168C5925F3D27800D9E1D4 /* UIStackView+predefinedStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC168C5825F3D27700D9E1D4 /* UIStackView+predefinedStackView.swift */; };
 		DC1E1F9225F7618E00A99BA1 /* UIView+onesideBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */; };
 		DC1E1F9425F7A35400A99BA1 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9325F7A35400A99BA1 /* LoginController.swift */; };
+		DC22C08526047B0400940F18 /* CommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC22C08426047B0400940F18 /* CommentsController.swift */; };
 		DC361E7825FB296800E09675 /* InstagramFirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */; };
 		DC361E7F25FB53D100E09675 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7E25FB53D100E09675 /* UserSearchController.swift */; };
 		DC361E8125FB57A400E09675 /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E8025FB57A400E09675 /* UserSearchCell.swift */; };
@@ -72,6 +73,7 @@
 		DC168C5825F3D27700D9E1D4 /* UIStackView+predefinedStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStackView+predefinedStackView.swift"; sourceTree = "<group>"; };
 		DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+onesideBorder.swift"; sourceTree = "<group>"; };
 		DC1E1F9325F7A35400A99BA1 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		DC22C08426047B0400940F18 /* CommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsController.swift; sourceTree = "<group>"; };
 		DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramFirebaseService.swift; sourceTree = "<group>"; };
 		DC361E7E25FB53D100E09675 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		DC361E8025FB57A400E09675 /* UserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchCell.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				DC766B4A25FA15DD0051EA14 /* HomeController.swift */,
 				DC766B4C25FA169D0051EA14 /* HomeCell.swift */,
 				DC766B5325FA47970051EA14 /* HomeCell.xib */,
+				DC22C08426047B0400940F18 /* CommentsController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 				DC0BB25D25F7345200F7FE5E /* UserProfileHeader.swift in Sources */,
 				DC5BB5FD26039D71003CCE68 /* HomeController+transitioningDelegate.swift in Sources */,
 				DC5D69A22601A1D3008E5BCC /* CameraController.swift in Sources */,
+				DC22C08526047B0400940F18 /* CommentsController.swift in Sources */,
 				DC168C5925F3D27800D9E1D4 /* UIStackView+predefinedStackView.swift in Sources */,
 				DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */,
 				DC766B4525F9D8410051EA14 /* Post.swift in Sources */,

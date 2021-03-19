@@ -80,6 +80,7 @@ class HomeController: UICollectionViewController {
       cell.post = posts[indexPath.item]
     }
     cell.width = collectionView.bounds.width
+    cell.delegate = self
     return cell
   }
   
@@ -87,5 +88,16 @@ class HomeController: UICollectionViewController {
     posts.removeAll()
     fetchUserPosts()
   }
+  
+}
+
+extension HomeController: HomeCellDelegate {
+  
+  func didTappedComment(ofPost post: Post) {
+    let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+    commentsController.post = post
+    navigationController?.pushViewController(commentsController, animated: true)
+  }
+  
   
 }

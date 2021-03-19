@@ -67,6 +67,9 @@
                                         <state key="normal" image="bubble.right" catalog="system">
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="light"/>
                                         </state>
+                                        <connections>
+                                            <action selector="didTappedComment:" destination="Czi-Dp-YZx" eventType="touchUpInside" id="MLT-Jn-FtD"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAf-Ne-dBe">
                                         <rect key="frame" x="75" y="56.5" width="20.5" height="19.5"/>

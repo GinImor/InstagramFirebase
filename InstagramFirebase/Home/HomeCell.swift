@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol HomeCellDelegate {
+  
+  func didTappedComment(ofPost: Post)
+}
+
 class HomeCell: UICollectionViewCell {
  
   var post: Post! {
@@ -21,6 +26,8 @@ class HomeCell: UICollectionViewCell {
       widthConstraint.isActive = true
     }
   }
+  
+  var delegate: HomeCellDelegate?
   
   @IBOutlet private var widthConstraint: NSLayoutConstraint! {
     didSet { widthConstraint.isActive = false }
@@ -63,6 +70,11 @@ class HomeCell: UICollectionViewCell {
     let captionPart = NSAttributedString(string: " " + post.caption, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
     result.append(captionPart)
     return result
+  }
+  
+  @IBAction func didTappedComment(_ sender: Any) {
+    guard let post = self.post else { return }
+    delegate?.didTappedComment(ofPost: post)
   }
   
 }
