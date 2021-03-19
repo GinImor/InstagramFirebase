@@ -12,13 +12,16 @@ class CommentsController: UICollectionViewController {
   
   var post: Post?
   
+  private var commentTextField: UITextField = {
+    let textField = UITextField()
+    textField.placeholder = "Enter Comment"
+    return textField
+  }()
+  
   lazy var containerView: UIView = {
     let containerView = UIView()
     containerView.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 50)
     containerView.backgroundColor = .white
-    
-    let textField = UITextField()
-    textField.placeholder = "Enter Comment"
     
     let sendButton = UIButton(type: .system)
     sendButton.setTitle("Send", for: .normal)
@@ -27,7 +30,7 @@ class CommentsController: UICollectionViewController {
     sendButton.setContentHuggingPriority(UILayoutPriority(rawValue: 260), for: .horizontal)
     sendButton.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 760), for: .horizontal)
     
-    let stackView = UIStackView(arrangedSubviews: [textField, sendButton])
+    let stackView = UIStackView(arrangedSubviews: [commentTextField, sendButton])
     stackView.spacing = UIStackView.spacingUseDefault
     stackView.pinToSuperviewEdges(
       edgeInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8),
@@ -52,7 +55,13 @@ class CommentsController: UICollectionViewController {
   }
   
   @objc func sendComment() {
-    print("send comment")
+    InstagramFirebaseService.sendCommentForPostWithId(post?.id, content: commentTextField.text) { (error) in
+      if error != nil {
+        print("can't upload comment due to error \(String(describing: error))")
+        return
+      }
+      print("successfully upload comment")
+    }
   }
   
   override var inputAccessoryView: UIView? {

@@ -15,6 +15,7 @@ enum InstagramFirebaseService {
     case users(uid: String? = nil)
     case following(uid: String? = nil, followedUid: String? = nil)
     case posts(uid: String? = nil, needPostId: Bool = false)
+    case comment(postId: String? = nil, needCommentId: Bool = false)
     
     var path: DatabaseReference {
       switch self {
@@ -28,6 +29,10 @@ enum InstagramFirebaseService {
         if uid == nil { return database.child("Posts") }
         else if !needPostId { return database.child("Posts/\(uid!)") }
         return database.child("Posts/\(uid!)").childByAutoId()
+      case let .comment(postId, needPostId):
+        if postId == nil { return database.child("Comments") }
+        else if !needPostId { return database.child("Comments/\(postId!)")}
+        return database.child("Comments/\(postId!)").childByAutoId()
       }
     }
   }
@@ -167,9 +172,10 @@ enum InstagramFirebaseService {
       postRef.observeSingleEvent(of: .value, with: { (snapshot) in
         print("user post snapshot value: \(String(describing: snapshot.value))")
         guard let allPosts = snapshot.value as? [String: Any] else { return }
-        let posts = allPosts.values.compactMap { postMetaData -> Post? in
+        let posts = allPosts.compactMap { postId, postMetaData -> Post? in
           guard let postMetaData = postMetaData as? [String: Any] else { return nil }
-          let post = Post(user: user, postDic: postMetaData)
+          var post = Post(user: user, postDic: postMetaData)
+          post.id = postId
           print("post image url: \(post.imageUrl)")
           return post
         }
@@ -209,7 +215,7 @@ enum InstagramFirebaseService {
           return
       }
       
-      storeImageData(imageData, forChild: .profileImages) { imageUrl, error in
+      storeContentData(imageData, forChild: .profileImages) { imageUrl, error in
         guard error == nil else {
           completion(error)
           return
@@ -270,7 +276,7 @@ enum InstagramFirebaseService {
     guard let uid = currentUser?.uid,
       let imageData = postImageDataProvider() else { completion(NSError()); return }
     
-    storeImageData(imageData, forChild: .postImages) { (imageUrl, error) in
+    storeContentData(imageData, forChild: .postImages) { (imageUrl, error) in
       guard error == nil else {
         completion(error)
         return
@@ -293,14 +299,32 @@ enum InstagramFirebaseService {
     }
   }
   
-  static func storeImageData(
-    _ imageData: Data,
+  static func sendCommentForPostWithId(
+    _ postId: String?,
+    content: String?,
+    completion: @escaping (Error?) -> Void)
+  {
+    guard let responder = currentUser?.uid, let postId = postId, let content = content else {
+      completion(NSError())
+      return
+    }
+    storeMetaData(
+      forChild: .comment(postId: postId, needCommentId: true),
+      metaDataProvider: {
+        ["content": content, "commentDate": Date().timeIntervalSince1970, "responder": responder]
+    }) { (error) in
+      completion(error)
+    }
+  }
+  
+  static func storeContentData(
+    _ contentData: Data,
     forChild child: StorageChild,
     completion: @escaping (String?, Error?) -> Void)
   {
     let fileName = NSUUID().uuidString
     let ref = pathForSTOChild(child, subChilds: fileName)
-    ref.putData(imageData, metadata: nil) { (_, error) in
+    ref.putData(contentData, metadata: nil) { (_, error) in
       if let error = error {
         print("put data error: \(error)")
         completion(nil, error)
