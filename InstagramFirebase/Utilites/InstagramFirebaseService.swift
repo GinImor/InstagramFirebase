@@ -299,12 +299,12 @@ enum InstagramFirebaseService {
     }
   }
   
-  static func sendCommentForPostWithId(
-    _ postId: String?,
+  static func sendCommentForPost(
+    _ post: Post?,
     content: String?,
     completion: @escaping (Error?) -> Void)
   {
-    guard let responder = currentUser?.uid, let postId = postId, let content = content else {
+    guard let responder = currentUser?.uid, let postId = post?.id, let content = content else {
       completion(NSError())
       return
     }
@@ -312,6 +312,25 @@ enum InstagramFirebaseService {
       forChild: .comment(postId: postId, needCommentId: true),
       metaDataProvider: {
         ["content": content, "commentDate": Date().timeIntervalSince1970, "responder": responder]
+    }) { (error) in
+      completion(error)
+    }
+  }
+  
+  static func fetchCommentsOfPost(
+    _ post: Post?,
+    nextCommentHandler: @escaping (Comment) -> Void,
+    completion: @escaping (Error?) -> Void)
+  {
+    guard let postId = post?.id else {
+      completion(NSError())
+      return
+    }
+    let path = DatabaseChild.comment(postId: postId, needCommentId: false).path
+    path.observe(.childAdded, with: { (snapshot) in
+      print("fetch comment snapshot:", snapshot.value!)
+      guard let comment = Comment(dic: snapshot.value) else { return }
+      nextCommentHandler(comment)
     }) { (error) in
       completion(error)
     }

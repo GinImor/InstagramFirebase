@@ -15,4 +15,5 @@ enum CellID {
   static let photoSelectorHeader = "photoSelectorHeader"
   static let homeCell = "homeCell"
   static let userSearchCell = "userSearchCell"
+  static let commentCell = "commentCell"
 }

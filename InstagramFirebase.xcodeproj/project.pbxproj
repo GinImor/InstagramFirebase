@@ -25,6 +25,9 @@
 		DC1E1F9225F7618E00A99BA1 /* UIView+onesideBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */; };
 		DC1E1F9425F7A35400A99BA1 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E1F9325F7A35400A99BA1 /* LoginController.swift */; };
 		DC22C08526047B0400940F18 /* CommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC22C08426047B0400940F18 /* CommentsController.swift */; };
+		DC22C0872604ADF200940F18 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC22C0862604ADF200940F18 /* CommentCell.swift */; };
+		DC22C0892604AEAF00940F18 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC22C0882604AEAF00940F18 /* Comment.swift */; };
+		DC22C08B2604C32000940F18 /* UIEdgeInsets+convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC22C08A2604C32000940F18 /* UIEdgeInsets+convenience.swift */; };
 		DC361E7825FB296800E09675 /* InstagramFirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */; };
 		DC361E7F25FB53D100E09675 /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E7E25FB53D100E09675 /* UserSearchController.swift */; };
 		DC361E8125FB57A400E09675 /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC361E8025FB57A400E09675 /* UserSearchCell.swift */; };
@@ -74,6 +77,9 @@
 		DC1E1F9125F7618E00A99BA1 /* UIView+onesideBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+onesideBorder.swift"; sourceTree = "<group>"; };
 		DC1E1F9325F7A35400A99BA1 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		DC22C08426047B0400940F18 /* CommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsController.swift; sourceTree = "<group>"; };
+		DC22C0862604ADF200940F18 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		DC22C0882604AEAF00940F18 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		DC22C08A2604C32000940F18 /* UIEdgeInsets+convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+convenience.swift"; sourceTree = "<group>"; };
 		DC361E7725FB296800E09675 /* InstagramFirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramFirebaseService.swift; sourceTree = "<group>"; };
 		DC361E7E25FB53D100E09675 /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		DC361E8025FB57A400E09675 /* UserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchCell.swift; sourceTree = "<group>"; };
@@ -154,6 +160,7 @@
 			children = (
 				DC766B4425F9D8410051EA14 /* Post.swift */,
 				DC0BB26125F7390000F7FE5E /* User.swift */,
+				DC22C0882604AEAF00940F18 /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -218,6 +225,7 @@
 				DC168C5825F3D27700D9E1D4 /* UIStackView+predefinedStackView.swift */,
 				DC0BB25925F7165600F7FE5E /* UIViewController+navInTabBar.swift */,
 				DC647F782600634C0079579D /* Date+timeAgo.swift */,
+				DC22C08A2604C32000940F18 /* UIEdgeInsets+convenience.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -229,6 +237,7 @@
 				DC766B4C25FA169D0051EA14 /* HomeCell.swift */,
 				DC766B5325FA47970051EA14 /* HomeCell.xib */,
 				DC22C08426047B0400940F18 /* CommentsController.swift */,
+				DC22C0862604ADF200940F18 /* CommentCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -425,6 +434,7 @@
 				DC361E7825FB296800E09675 /* InstagramFirebaseService.swift in Sources */,
 				DC5BB5F626032BCF003CCE68 /* PhotoCaptureDelegate.swift in Sources */,
 				DC766B4D25FA169D0051EA14 /* HomeCell.swift in Sources */,
+				DC22C0872604ADF200940F18 /* CommentCell.swift in Sources */,
 				DC766B5025FA1D170051EA14 /* InstagramFileManager.swift in Sources */,
 				DC78820025FF59CF002E4F5F /* LoadingButton.swift in Sources */,
 				DC647F792600634C0079579D /* Date+timeAgo.swift in Sources */,
@@ -445,12 +455,14 @@
 				DC0BB26225F7390000F7FE5E /* User.swift in Sources */,
 				DC0BB25D25F7345200F7FE5E /* UserProfileHeader.swift in Sources */,
 				DC5BB5FD26039D71003CCE68 /* HomeController+transitioningDelegate.swift in Sources */,
+				DC22C08B2604C32000940F18 /* UIEdgeInsets+convenience.swift in Sources */,
 				DC5D69A22601A1D3008E5BCC /* CameraController.swift in Sources */,
 				DC22C08526047B0400940F18 /* CommentsController.swift in Sources */,
 				DC168C5925F3D27800D9E1D4 /* UIStackView+predefinedStackView.swift in Sources */,
 				DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */,
 				DC766B4525F9D8410051EA14 /* Post.swift in Sources */,
 				DC5BB5F226032B3B003CCE68 /* PreviewView.swift in Sources */,
+				DC22C0892604AEAF00940F18 /* Comment.swift in Sources */,
 				DC0BB25A25F7165600F7FE5E /* UIViewController+navInTabBar.swift in Sources */,
 				DC1E1F9425F7A35400A99BA1 /* LoginController.swift in Sources */,
 			);
