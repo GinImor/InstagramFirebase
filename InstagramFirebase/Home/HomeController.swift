@@ -11,6 +11,7 @@ import UIKit
 class HomeController: UICollectionViewController {
   
   var posts: [Post] = []
+  let transition = PopAnimator()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,6 +37,8 @@ class HomeController: UICollectionViewController {
   
   @objc func takePicture() {
     let cameraController = CameraController(nibName: "CameraController", bundle: nil)
+    cameraController.transitioningDelegate = self
+    cameraController.modalPresentationStyle = .fullScreen
     present(cameraController, animated: true)
   }
   

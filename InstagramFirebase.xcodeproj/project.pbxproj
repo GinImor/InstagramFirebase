@@ -31,6 +31,8 @@
 		DC5BB5F426032B74003CCE68 /* ItemSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5BB5F326032B74003CCE68 /* ItemSelectionController.swift */; };
 		DC5BB5F626032BCF003CCE68 /* PhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5BB5F526032BCF003CCE68 /* PhotoCaptureDelegate.swift */; };
 		DC5BB5F826033496003CCE68 /* CameraController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC5BB5F726033496003CCE68 /* CameraController.xib */; };
+		DC5BB5FB26039D13003CCE68 /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5BB5FA26039D13003CCE68 /* PopAnimator.swift */; };
+		DC5BB5FD26039D71003CCE68 /* HomeController+transitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5BB5FC26039D71003CCE68 /* HomeController+transitioningDelegate.swift */; };
 		DC5D69A22601A1D3008E5BCC /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5D69A12601A1D3008E5BCC /* CameraController.swift */; };
 		DC647F792600634C0079579D /* Date+timeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC647F782600634C0079579D /* Date+timeAgo.swift */; };
 		DC766B4325F9A64C0051EA14 /* PostPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */; };
@@ -77,6 +79,8 @@
 		DC5BB5F326032B74003CCE68 /* ItemSelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectionController.swift; sourceTree = "<group>"; };
 		DC5BB5F526032BCF003CCE68 /* PhotoCaptureDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureDelegate.swift; sourceTree = "<group>"; };
 		DC5BB5F726033496003CCE68 /* CameraController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraController.xib; sourceTree = "<group>"; };
+		DC5BB5FA26039D13003CCE68 /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
+		DC5BB5FC26039D71003CCE68 /* HomeController+transitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeController+transitioningDelegate.swift"; sourceTree = "<group>"; };
 		DC5D69A12601A1D3008E5BCC /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		DC647F782600634C0079579D /* Date+timeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+timeAgo.swift"; sourceTree = "<group>"; };
 		DC766B4225F9A64C0051EA14 /* PostPhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPhotoController.swift; sourceTree = "<group>"; };
@@ -175,6 +179,7 @@
 			children = (
 				DC361E7C25FB52C100E09675 /* Root */,
 				DC5D69A02601A1C0008E5BCC /* Camera */,
+				DC5BB5F926039CE2003CCE68 /* Transition */,
 				DC361E7925FB515100E09675 /* Home */,
 				DC361E7D25FB53A700E09675 /* Search */,
 				DC0BB25625F714CC00F7FE5E /* PhotoPoster */,
@@ -260,6 +265,15 @@
 				DC361E8025FB57A400E09675 /* UserSearchCell.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		DC5BB5F926039CE2003CCE68 /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				DC5BB5FA26039D13003CCE68 /* PopAnimator.swift */,
+				DC5BB5FC26039D71003CCE68 /* HomeController+transitioningDelegate.swift */,
+			);
+			path = Transition;
 			sourceTree = "<group>";
 		};
 		DC5D69A02601A1C0008E5BCC /* Camera */ = {
@@ -412,6 +426,7 @@
 				DC78820025FF59CF002E4F5F /* LoadingButton.swift in Sources */,
 				DC647F792600634C0079579D /* Date+timeAgo.swift in Sources */,
 				DC88672E25F879E900C92257 /* PhotoSelectorController.swift in Sources */,
+				DC5BB5FB26039D13003CCE68 /* PopAnimator.swift in Sources */,
 				DC168C4125F3C56700D9E1D4 /* AppDelegate.swift in Sources */,
 				DC0BB25525F714BE00F7FE5E /* MainTabBarController.swift in Sources */,
 				DC1E1F9225F7618E00A99BA1 /* UIView+onesideBorder.swift in Sources */,
@@ -426,6 +441,7 @@
 				DC361E7F25FB53D100E09675 /* UserSearchController.swift in Sources */,
 				DC0BB26225F7390000F7FE5E /* User.swift in Sources */,
 				DC0BB25D25F7345200F7FE5E /* UserProfileHeader.swift in Sources */,
+				DC5BB5FD26039D71003CCE68 /* HomeController+transitioningDelegate.swift in Sources */,
 				DC5D69A22601A1D3008E5BCC /* CameraController.swift in Sources */,
 				DC168C5925F3D27800D9E1D4 /* UIStackView+predefinedStackView.swift in Sources */,
 				DC766B4725F9F0D90051EA14 /* UserProfileCell.swift in Sources */,

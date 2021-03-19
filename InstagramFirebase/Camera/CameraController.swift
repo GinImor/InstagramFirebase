@@ -18,6 +18,9 @@ class CameraController: UIViewController, AVCaptureFileOutputRecordingDelegate, 
     return view.window?.windowScene?.interfaceOrientation ?? .unknown
   }
   
+  @IBOutlet weak var containerView: UIView!
+  
+  
   // MARK: View Controller Life Cycle
   
   override func viewDidLoad() {
