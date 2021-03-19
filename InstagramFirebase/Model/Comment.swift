@@ -9,6 +9,7 @@
 import Foundation
 
 struct Comment {
+  var responderUser: User?
   let content: String
   let responder: String
   

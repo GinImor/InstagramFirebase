@@ -144,7 +144,7 @@ enum InstagramFirebaseService {
   }
   
   static func fetchUserWithUid(_ uid: String?, completion: @escaping (User) -> Void) {
-    guard let uid = uid ?? currentUser?.uid else { return }
+    guard let uid = uid ?? currentUser?.uid, uid != "" else { return }
     DatabaseChild.users(uid: uid).path.observeSingleEvent(of: .value, with: { snapshot in
       print("snapshot: \(snapshot.value ?? "")")
       guard let user = User(uid: uid, dic: snapshot.value) else { return }
@@ -329,8 +329,11 @@ enum InstagramFirebaseService {
     let path = DatabaseChild.comment(postId: postId, needCommentId: false).path
     path.observe(.childAdded, with: { (snapshot) in
       print("fetch comment snapshot:", snapshot.value!)
-      guard let comment = Comment(dic: snapshot.value) else { return }
-      nextCommentHandler(comment)
+      guard var comment = Comment(dic: snapshot.value) else { return }
+      fetchUserWithUid(comment.responder) { (user) in
+        comment.responderUser = user
+        nextCommentHandler(comment)
+      }
     }) { (error) in
       completion(error)
     }

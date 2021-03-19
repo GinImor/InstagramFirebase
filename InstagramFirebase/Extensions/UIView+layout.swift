@@ -29,15 +29,20 @@ extension UIView {
     return view
   }
   
-  func pinToSuperviewEdges(edgeInsets: UIEdgeInsets = .zero, pinnedView: UIView? = nil) {
+  func pinToSuperviewEdges(edgeInsets: UIEdgeInsets = .zero, pinnedView: UIView? = nil, forSelfSizing: Bool = false) {
     pinnedView?.addSubview(self)
     guard let superview = superview else { return }
     disableTAMIC()
+    
+    let bottomConstraint = bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -edgeInsets.bottom)
+    if forSelfSizing {
+      bottomConstraint.priority = UILayoutPriority(rawValue: 750)
+    }
     NSLayoutConstraint.activate([
       topAnchor.constraint(equalTo: superview.topAnchor, constant: edgeInsets.top),
       leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: edgeInsets.left),
       trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -edgeInsets.right),
-      bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -edgeInsets.bottom)
+      bottomConstraint
     ])
   }
   
