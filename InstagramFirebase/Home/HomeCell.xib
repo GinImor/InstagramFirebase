@@ -59,6 +59,9 @@
                                         <state key="normal" image="heart" catalog="system">
                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium" weight="light"/>
                                         </state>
+                                        <connections>
+                                            <action selector="didTappedLike:" destination="Czi-Dp-YZx" eventType="touchUpInside" id="lIw-hK-vZA"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HgS-dC-SBf">
                                         <rect key="frame" x="36.5" y="56.5" width="22.5" height="19"/>
@@ -138,6 +141,7 @@
             <connections>
                 <outlet property="captionLabel" destination="t2u-Nd-Lpg" id="krx-W5-kHn"/>
                 <outlet property="creationLabel" destination="zZy-vh-1UN" id="AX5-km-7kh"/>
+                <outlet property="likeButton" destination="d3f-2h-7xw" id="afa-sj-9Ua"/>
                 <outlet property="photoImageView" destination="vFA-Je-B2N" id="7n7-vC-Yau"/>
                 <outlet property="userProfileImageView" destination="jwW-zI-LwF" id="ufN-3Z-51s"/>
                 <outlet property="usernameLabel" destination="h2k-vn-0AI" id="4rw-RY-zLT"/>

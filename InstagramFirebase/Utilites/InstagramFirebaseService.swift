@@ -14,6 +14,7 @@ enum InstagramFirebaseService {
   enum DatabaseChild {
     case users(uid: String? = nil)
     case following(uid: String? = nil, followedUid: String? = nil)
+    case likes(postId: String? = nil, likingUid: String? = nil)
     case posts(uid: String? = nil, needPostId: Bool = false)
     case comment(postId: String? = nil, needCommentId: Bool = false)
     
@@ -25,6 +26,10 @@ enum InstagramFirebaseService {
         if uid == nil { return database.child("Followings") }
         else if followedUid == nil { return database.child("Followings/\(uid!)") }
         return database.child("Followings/\(uid!)/\(followedUid!)")
+      case let .likes(postId, likingUid):
+        if postId == nil { return database.child("Likes") }
+        else if likingUid == nil { return database.child("Likes/\(postId!)")}
+        return database.child("Likes/\(postId!)/\(likingUid!)")
       case let .posts(uid, needPostId):
         if uid == nil { return database.child("Posts") }
         else if !needPostId { return database.child("Posts/\(uid!)") }
@@ -118,16 +123,16 @@ enum InstagramFirebaseService {
     fetchUserWithUid(nil, completion: completion)
   }
   
-  static func fetchPostsForCurrentUserAndFollowings(completion: @escaping (([Post]?) -> Void)) {
+  static func fetchPostsForCurrentUserAndFollowings(completion: @escaping ((Post) -> Void)) {
     guard let currentUserUid = currentUser?.uid else { return }
-    fetchPostsForUid(currentUserUid) { (posts) in
-      completion(posts)
+    fetchPostsForUid(currentUserUid) { (post) in
+      completion(post)
     }
     DatabaseChild.following(uid: currentUserUid).path.observeSingleEvent(of: .value, with: { (snapshot) in
       guard let followingsUids = (snapshot.value as? [String: Any])?.keys else { return }
       for uid in followingsUids {
-        fetchPostsForUid(uid) { (posts) in
-          completion(posts)
+        fetchPostsForUid(uid) { (post) in
+          completion(post)
         }
       }
     }) { (error) in
@@ -135,10 +140,10 @@ enum InstagramFirebaseService {
     }
   }
   
-  static func fetchPostsForUid(_ uid: String, completion: @escaping (([Post]?) -> Void)) {
+  static func fetchPostsForUid(_ uid: String, completion: @escaping ((Post) -> Void)) {
     fetchUserWithUid(uid) { (user) in
-      fetchPostsForUser(user) { (posts) in
-        completion(posts)
+      fetchPostsForUser(user) { (post) in
+        completion(post)
       }
     }
   }
@@ -155,7 +160,7 @@ enum InstagramFirebaseService {
   }
   
   static func fetchAllUsersButCurrent(completion: @escaping ([User]) -> Void) {
-    DatabaseChild.users(uid: nil).path.observeSingleEvent(of: .value, with: { (snapshot) in
+    DatabaseChild.users().path.observeSingleEvent(of: .value, with: { (snapshot) in
       guard let userDics = snapshot.value as? [String: Any] else { return }
       let users = userDics.compactMap { (uid, userDic) -> User? in
         guard uid != currentUser?.uid else { return nil}
@@ -167,19 +172,30 @@ enum InstagramFirebaseService {
     }
   }
   
-  static func fetchPostsForUser(_ user: User, completion: @escaping ([Post]?) -> Void) {
-    let postRef = DatabaseChild.posts(uid: user.uid, needPostId: false).path
+  static func fetchPostsForUser(_ user: User, nextPostHandler: @escaping (Post) -> Void) {
+    guard let currentUserUid = currentUser?.uid else { return }
+    let postRef = DatabaseChild.posts(uid: user.uid).path
       postRef.observeSingleEvent(of: .value, with: { (snapshot) in
         print("user post snapshot value: \(String(describing: snapshot.value))")
         guard let allPosts = snapshot.value as? [String: Any] else { return }
-        let posts = allPosts.compactMap { postId, postMetaData -> Post? in
-          guard let postMetaData = postMetaData as? [String: Any] else { return nil }
+        allPosts.forEach { postId, postMetaData in
+          guard let postMetaData = postMetaData as? [String: Any] else { return }
           var post = Post(user: user, postDic: postMetaData)
           post.id = postId
           print("post image url: \(post.imageUrl)")
-          return post
+          
+          let likeRef = DatabaseChild.likes(postId: postId, likingUid: currentUserUid).path
+          likeRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let isLiking = snapshot.value as? Int, isLiking == 1 {
+              post.isLiking = true
+            } else {
+              post.isLiking = false
+            }
+            nextPostHandler(post)
+          }) { (error) in
+            print("fetch like state error", error)
+          }
         }
-        completion(posts)
       }) { (error) in
         print("user profile fetch posts error: \(error)")
       }
@@ -263,6 +279,18 @@ enum InstagramFirebaseService {
       return
     }
     DatabaseChild.following(uid: uid, followedUid: user.uid).path.removeValue { (error, _) in
+      completion(error)
+    }
+  }
+  
+  static func like(_ isLiking: Bool, post: Post?, completion: @escaping (Error?) -> Void) {
+    guard let postId = post?.id, let currentUserUid = currentUser?.uid else {
+      completion(NSError())
+      return
+    }
+    storeMetaData(forChild: .likes(postId: postId), metaDataProvider: {
+      [currentUserUid: isLiking ? 1 : 0]
+    }) { (error) in
       completion(error)
     }
   }

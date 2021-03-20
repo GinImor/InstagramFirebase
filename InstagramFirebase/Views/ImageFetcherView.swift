@@ -15,6 +15,7 @@ class ImageFetchView: UIImageView {
   func fetchImage(withUrl url: String?, completion: @escaping () -> Void = {}) {
     guard let imageUrl = url, imageUrl != "", let imageURL = URL(string: imageUrl)
       else { return }
+    image = nil
     currentImageURL = imageURL
     if let cachedImage = InstagramFileManager.default.cachedImage(forURL: imageURL) {
       self.image = cachedImage

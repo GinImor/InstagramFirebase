@@ -59,10 +59,9 @@ class HomeController: UICollectionViewController {
   }
   
   private func fetchUserPosts() {
-    InstagramFirebaseService.fetchPostsForCurrentUserAndFollowings { (pendingPosts) in
+    InstagramFirebaseService.fetchPostsForCurrentUserAndFollowings { (pendingPost) in
       self.collectionView.refreshControl?.endRefreshing()
-      guard let pendingPosts = pendingPosts else { return }
-      self.posts.append(contentsOf: pendingPosts)
+      self.posts.append(pendingPost)
       self.posts.sort { (post1, post2) in
         post1.creationDate > post2.creationDate
       }
@@ -76,8 +75,9 @@ class HomeController: UICollectionViewController {
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.homeCell, for: indexPath) as! HomeCell
+    let post = posts[indexPath.item]
     if !posts.isEmpty {
-      cell.post = posts[indexPath.item]
+      cell.post = post
     }
     cell.width = collectionView.bounds.width
     cell.delegate = self
@@ -99,5 +99,11 @@ extension HomeController: HomeCellDelegate {
     navigationController?.pushViewController(commentsController, animated: true)
   }
   
-  
+  func didUpdatePost(_ post: Post) {
+    guard let index = posts.firstIndex(where: { $0.id == post.id && $0.id != nil }) else { return }
+    posts[index] = post
+    collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+    print("did update post", posts)
+  }
+
 }

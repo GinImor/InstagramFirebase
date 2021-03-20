@@ -30,7 +30,7 @@ struct InstagramFileManager {
   func cachedImage(forURL url: URL) -> UIImage? {
     guard let cachesDir = self.cachesDir else { return nil }
     let filePath = cachesDir.appendingPathComponent(url.lastPathComponent)
-    guard helper.fileExists(atPath: filePath.absoluteString) else { return nil }
+    // if use file manage to check if file exist, use filePath.path instead of .absoluteStirng
     do {
       let imageData = try Data(contentsOf: filePath)
       return UIImage(data: imageData)

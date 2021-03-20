@@ -14,6 +14,7 @@ struct Post {
   let imageUrl: String
   let caption: String
   let creationDate: Date
+  var isLiking: Bool = false
   
   init(user: User?, postDic: [String: Any]) {
     self.user = user

@@ -9,8 +9,8 @@
 import UIKit
 
 protocol HomeCellDelegate {
-  
   func didTappedComment(ofPost: Post)
+  func didUpdatePost(_: Post)
 }
 
 class HomeCell: UICollectionViewCell {
@@ -63,6 +63,7 @@ class HomeCell: UICollectionViewCell {
     photoImageView.fetchImage(withUrl: post.imageUrl)
     captionLabel.attributedText = attributedTextForPost()
     creationLabel.text = post.creationDate.timeAgo()
+    isLiking = post.isLiking
   }
   
   private func attributedTextForPost() -> NSAttributedString {
@@ -75,6 +76,35 @@ class HomeCell: UICollectionViewCell {
   @IBAction func didTappedComment(_ sender: Any) {
     guard let post = self.post else { return }
     delegate?.didTappedComment(ofPost: post)
+  }
+  
+  @IBOutlet weak var likeButton: UIButton!
+  
+  var isLiking = false {
+    didSet {
+      if isLiking {
+        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+      } else {
+        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        
+      }
+    }
+  }
+  
+  @IBAction func didTappedLike(_ sender: UIButton) {
+    guard var post = self.post else { return }
+    sender.isEnabled = false
+    InstagramFirebaseService.like(!post.isLiking, post: post) { (error) in
+      guard post.id == self.post.id, post.id != nil else { return }
+      sender.isEnabled = true
+      if let error = error {
+        print("like post error:", error)
+        return
+      }
+      print("successfully like or unlike post")
+      post.isLiking = !post.isLiking
+      self.delegate?.didUpdatePost(post)
+    }
   }
   
 }
