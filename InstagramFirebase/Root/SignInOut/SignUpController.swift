@@ -76,7 +76,7 @@ class SignUpController: UIViewController {
     let loginMessageStack = UIStackView(arrangedSubviews: [loginMessageLabel, loginMessageButton])
     loginMessageLabel.text = "Already have an account?"
     loginMessageButton.setTitle("Login", for: .normal)
-    loginMessageButton.setTitleColor(UIColor(rgb: (17, 154, 237)), for: .normal)
+    loginMessageButton.setTitleColor(.primaryBlue, for: .normal)
     loginMessageButton.addTarget(self, action: #selector(showLogin), for: .touchUpInside)
     loginMessageStack.spacing = 8
     loginMessageStack.disableTAMIC()
@@ -97,7 +97,7 @@ class SignUpController: UIViewController {
   @objc func textChange() {
     if emailTextField.text ?? "" != "" && userNameTextField.text ?? "" != "" && passwordTextField.text ?? ""  != "" {
       signUpButton.isEnabled = true
-      signUpButton.backgroundColor = UIColor(rgb: (17, 154, 237))
+      signUpButton.backgroundColor = .primaryBlue
     } else {
       signUpButton.isEnabled = false
       signUpButton.backgroundColor = UIColor(rgb: (149, 204, 244))
@@ -134,7 +134,7 @@ class SignUpController: UIViewController {
     textField.placeholder = placeholder
     textField.borderStyle = .roundedRect
     textField.font = UIFont.preferredFont(forTextStyle: .body)
-    textField.backgroundColor = UIColor(white: 0.0, alpha: 0.03)
+    textField.backgroundColor = .whiteWithAlpha(0.03)
     textField.addTarget(self, action: #selector(textChange), for: .editingChanged)
     return textField
   }

@@ -69,18 +69,32 @@ class UserProfileController: UICollectionViewController {
   private func setupCollectionView() {
     collectionView.backgroundColor = .systemBackground
     collectionView.register(UserProfileCell.self, forCellWithReuseIdentifier: CellID.userProfileCell)
+    let nib = UINib(nibName: "HomeCell", bundle: nil)
+    collectionView.register(nib, forCellWithReuseIdentifier: CellID.homeCell)
     collectionView.register(UserProfileHeadder.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier:CellID.userProfileHeader)
     setupLayout()
   }
   
+  var isGridLayout = true
+  
   private func setupLayout() {
     guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-    flowLayout.minimumInteritemSpacing = 1.0
-    flowLayout.minimumLineSpacing = 1.0
     
-    let itemWidth = floor((collectionView.bounds.width - 2) / 3)
-    flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
-    flowLayout.headerReferenceSize = CGSize(width: 0, height: 186)
+    let collectionWidth = collectionView.bounds.width
+    if isGridLayout {
+      flowLayout.minimumInteritemSpacing = 1.0
+      flowLayout.minimumLineSpacing = 1.0
+      
+      let itemWidth = floor((collectionWidth - 2) / 3)
+      flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+      flowLayout.headerReferenceSize = CGSize(width: 0, height: 186)
+      flowLayout.estimatedItemSize = .zero
+    } else {
+      flowLayout.minimumInteritemSpacing = 10.0
+      flowLayout.minimumLineSpacing = 10.0
+      flowLayout.estimatedItemSize = CGSize(width: collectionWidth, height: collectionWidth + 200)
+    }
+    collectionView.reloadData()
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -88,15 +102,23 @@ class UserProfileController: UICollectionViewController {
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath) as! UserProfileCell
-    cell.post = postForItem(indexPath.item)
-    return cell
+    if isGridLayout {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath) as! UserProfileCell
+      cell.post = postForItem(indexPath.item)
+      return cell
+    } else {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.homeCell, for: indexPath) as! HomeCell
+      cell.width = collectionView.bounds.width
+      cell.post = postForItem(indexPath.item)
+      return cell
+    }
   }
   
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CellID.userProfileHeader, for: indexPath) as! UserProfileHeadder
     header.user = user
     header.isCurrentUser = uid == nil ? true : false
+    header.delegate = self
     return header
   }
   
@@ -104,5 +126,15 @@ class UserProfileController: UICollectionViewController {
     let lastIndex = posts.count - 1
     return posts[lastIndex - item]
   }
+  
+}
+
+extension UserProfileController: UserProfileHeaderProtocol {
+  
+  func didRequiredNewLayout(_ isGridLayout: Bool) {
+    self.isGridLayout = isGridLayout
+    setupLayout()
+  }
+  
   
 }

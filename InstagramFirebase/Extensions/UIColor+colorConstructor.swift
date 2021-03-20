@@ -1,5 +1,5 @@
 //
-//  UIImage+colorConstructor.swift
+//  UIColor+colorConstructor.swift
 //  IntermediateTraining
 //
 //  Created by Gin Imor on 1/30/21.
@@ -10,10 +10,10 @@ import UIKit
 
 extension UIColor {
   
-  static let darkBlue = UIColor(rgb: (9, 45, 64))
-  static let lightRed = UIColor(rgb: (247, 66, 82))
-  static let tealColor = UIColor(rgb: (48, 164, 182))
-  static let lightBlue = UIColor(rgb: (218, 235, 242))
+  static var primaryBlue: UIColor { UIColor(rgb: (17, 154, 237)) }
+  static func whiteWithAlpha(_ alpha: CGFloat) -> UIColor {
+    return UIColor(white: 0.0, alpha: alpha)
+  }
   
   convenience init(rgb: (red: Int, green: Int, blue: Int), alpha: CGFloat = 1.0) {
     self.init(red: CGFloat(rgb.red)/255,

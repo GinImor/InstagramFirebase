@@ -132,7 +132,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="cVA-XS-XDz" firstAttribute="leading" secondItem="yzo-tQ-M7r" secondAttribute="leading" id="6HI-VR-cVE"/>
-                    <constraint firstAttribute="bottom" secondItem="cVA-XS-XDz" secondAttribute="bottom" constant="8" id="SVd-PQ-tRK"/>
+                    <constraint firstAttribute="bottom" secondItem="cVA-XS-XDz" secondAttribute="bottom" priority="750" constant="8" id="SVd-PQ-tRK"/>
                     <constraint firstItem="cVA-XS-XDz" firstAttribute="top" secondItem="yzo-tQ-M7r" secondAttribute="top" constant="8" id="dz0-4G-Wbr"/>
                     <constraint firstAttribute="trailing" secondItem="cVA-XS-XDz" secondAttribute="trailing" id="xFd-nN-xv4"/>
                 </constraints>

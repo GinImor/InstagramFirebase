@@ -51,7 +51,7 @@ class CommentCell: UICollectionViewCell {
   
   private func setup() {
     let separator = UIView()
-    separator.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
+    separator.backgroundColor = .whiteWithAlpha(0.5)
     
     let contentStack = UIStackView.verticalStack(arrangedSubviews: [commentTextView, separator])
     let containerStack = UIStackView(arrangedSubviews: [responderImageView, contentStack])

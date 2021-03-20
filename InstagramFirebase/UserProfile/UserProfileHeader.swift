@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol UserProfileHeaderProtocol: class {
+  func didRequiredNewLayout(_ isGridLayout: Bool)
+}
+
 class UserProfileHeadder: UICollectionViewCell {
   
   /// need to deal with the first time input user is nil
@@ -35,9 +39,9 @@ class UserProfileHeadder: UICollectionViewCell {
         editProfileOrFollowButton.setTitleColor(.black, for: .normal)
       } else {
         editProfileOrFollowButton.setTitle("follow", for: .normal)
-        editProfileOrFollowButton.backgroundColor = UIColor(rgb: (17, 154, 237))
+        editProfileOrFollowButton.backgroundColor = .primaryBlue
         editProfileOrFollowButton.setTitleColor(.white, for: .normal)
-        editProfileOrFollowButton.layer.borderColor = UIColor(white: 0.0, alpha: 0.2).cgColor
+        editProfileOrFollowButton.layer.borderColor = UIColor.whiteWithAlpha(0.2).cgColor
         editProfileOrFollowButton.layer.borderWidth = 1.0
       }
     }
@@ -76,14 +80,42 @@ class UserProfileHeadder: UICollectionViewCell {
     return button
   }()
   
+  weak var delegate: UserProfileHeaderProtocol?
+  
+  var isGridLayout = true {
+    didSet {
+      guard oldValue != isGridLayout else { return }
+        // now require grid layout
+        if isGridLayout {
+          gridButton.tintColor = .primaryBlue
+          listButton.tintColor = .whiteWithAlpha(0.2)
+        } else {
+          listButton.tintColor = .primaryBlue
+          gridButton.tintColor = .whiteWithAlpha(0.2)
+      }
+      delegate?.didRequiredNewLayout(isGridLayout)
+    }
+  }
   private lazy var gridButton: UIButton = {
     let button = displayModeButton(imageNamed: "rectangle.grid.2x2")
-    button.tintColor = nil
+    button.tintColor = .primaryBlue
+    button.addTarget(self, action: #selector(didTappedGridButton), for: .touchUpInside)
     return button
   }()
-  private lazy var listButton = displayModeButton(imageNamed: "list.dash")
+  private lazy var listButton: UIButton = {
+    let button = displayModeButton(imageNamed: "list.dash")
+    button.addTarget(self, action: #selector(didTappedListButton), for: .touchUpInside)
+    return button
+  }()
   private lazy var bookmarkButton = displayModeButton(imageNamed: "bookmark")
   
+  @objc func didTappedGridButton() {
+    isGridLayout = true
+  }
+  
+  @objc func didTappedListButton() {
+    isGridLayout = false
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -185,7 +217,7 @@ class UserProfileHeadder: UICollectionViewCell {
   private func displayModeButton(imageNamed: String) -> UIButton {
     let button = UIButton(type: .system)
     button.setImage(UIImage(systemName: imageNamed)!, for: .normal)
-    button.tintColor = UIColor(white: 0.0, alpha: 0.2)
+    button.tintColor = .whiteWithAlpha(0.2)
     return button
   }
   

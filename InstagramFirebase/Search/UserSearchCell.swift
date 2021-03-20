@@ -57,7 +57,7 @@ class UserSearchCell: UICollectionViewCell {
     let separator = UIView()
     
     addSubview(separator)
-    separator.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
+    separator.backgroundColor = .whiteWithAlpha(0.5)
     separator.disableTAMIC()
     
     messageStackView.distribution = .fillEqually
