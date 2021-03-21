@@ -233,24 +233,25 @@ enum InstagramFirebaseService {
   
   static func paginatePosts(
     user: User,
-    startingAt startChild: String?,
+    endingAt endChild: Any?,
     nextPostHandler: @escaping (Post) -> Void,
     completion: @escaping (Bool) -> Void) {
     let ref = DatabaseChild.posts(uid: user.uid).path
-    var query = ref.queryOrderedByKey()
-    if let startChild = startChild {
-      query = query.queryStarting(atValue: startChild)
+    var query = ref.queryOrdered(byChild: "creationDate")
+    if let endChild = endChild {
+      query = query.queryEnding(atValue: endChild)
     }
-    query = query.queryLimited(toFirst: 4)
+    query = query.queryLimited(toLast: 4)
     
     query.observeSingleEvent(of: .value, with: { (snapshot) in
       guard var allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+      allObjects.reverse()
       // if allObject.count < 4, means no more post to fetch, if == 4, at least one post will
       // be fetched.
       let isFinishedLoading = allObjects.count < 4
-      // if startChild not nil, means in the middle of loading, cause this time use the posts last
+      // if endChild not nil, means in the middle of loading, cause this time use the posts last
       // one to start query, so need to remove the first one.
-      if startChild != nil {
+      if endChild != nil {
         allObjects.removeFirst()
       }
       allObjects.forEach { (snapshot) in

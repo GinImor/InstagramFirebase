@@ -62,7 +62,7 @@ class UserProfileController: UICollectionViewController {
   private func paginatePosts() {
     InstagramFirebaseService.paginatePosts(
       user: user!,
-      startingAt: posts.count > 0 ? posts.last?.id : nil,
+      endingAt: posts.count > 0 ? posts.last?.creationDate.timeIntervalSince1970 : nil,
       nextPostHandler: { (post) in
         self.posts.append(post)
     }) { isFinishedLoading in
@@ -121,12 +121,12 @@ class UserProfileController: UICollectionViewController {
     }
     if isGridLayout {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath) as! UserProfileCell
-      cell.post = postForItem(indexPath.item)
+      cell.post = posts[indexPath.item]
       return cell
     } else {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.homeCell, for: indexPath) as! HomeCell
       cell.width = collectionView.bounds.width
-      cell.post = postForItem(indexPath.item)
+      cell.post = posts[indexPath.item]
       return cell
     }
   }
@@ -137,11 +137,6 @@ class UserProfileController: UICollectionViewController {
     header.isCurrentUser = uid == nil ? true : false
     header.delegate = self
     return header
-  }
-  
-  private func postForItem(_ item: Int) -> Post {
-    let lastIndex = posts.count - 1
-    return posts[lastIndex - item]
   }
   
 }
