@@ -12,6 +12,31 @@ import Firebase
 enum InstagramFirebaseService {
   
   enum DatabaseChild {
+    
+    struct PathBuilder {
+      private var partialPath = ""
+      private var needAutoId = false
+      
+      mutating func add(_ texts: String?...) {
+        for text in texts {
+          guard let text = text else { return }
+          partialPath += "/\(text)"
+        }
+      }
+      
+      mutating func addAutoId(_ add: Bool) {
+        needAutoId = add
+      }
+      
+      func build() -> DatabaseReference {
+        var result = database.child(partialPath)
+        if needAutoId {
+          result = result.childByAutoId()
+        }
+        return result
+      }
+    }
+    
     case users(uid: String? = nil)
     case following(uid: String? = nil, followedUid: String? = nil)
     case likes(postId: String? = nil, likingUid: String? = nil)
@@ -19,26 +44,22 @@ enum InstagramFirebaseService {
     case comment(postId: String? = nil, needCommentId: Bool = false)
     
     var path: DatabaseReference {
+      var pathBuilder = PathBuilder()
       switch self {
       case let .users(uid):
-        return database.child("Users/\(uid ?? "")")
+        pathBuilder.add("Users", uid)
       case let .following(uid, followedUid):
-        if uid == nil { return database.child("Followings") }
-        else if followedUid == nil { return database.child("Followings/\(uid!)") }
-        return database.child("Followings/\(uid!)/\(followedUid!)")
+        pathBuilder.add("Followings", uid, followedUid)
       case let .likes(postId, likingUid):
-        if postId == nil { return database.child("Likes") }
-        else if likingUid == nil { return database.child("Likes/\(postId!)")}
-        return database.child("Likes/\(postId!)/\(likingUid!)")
+        pathBuilder.add("Likes", postId, likingUid)
       case let .posts(uid, needPostId):
-        if uid == nil { return database.child("Posts") }
-        else if !needPostId { return database.child("Posts/\(uid!)") }
-        return database.child("Posts/\(uid!)").childByAutoId()
-      case let .comment(postId, needPostId):
-        if postId == nil { return database.child("Comments") }
-        else if !needPostId { return database.child("Comments/\(postId!)")}
-        return database.child("Comments/\(postId!)").childByAutoId()
+        pathBuilder.add("Posts", uid)
+        pathBuilder.addAutoId(needPostId)
+      case let .comment(postId, needCommentId):
+        pathBuilder.add("Comments", postId)
+        pathBuilder.addAutoId(needCommentId)
       }
+      return pathBuilder.build()
     }
   }
   
@@ -179,8 +200,7 @@ enum InstagramFirebaseService {
         print("user post snapshot value: \(String(describing: snapshot.value))")
         guard let allPosts = snapshot.value as? [String: Any] else { return }
         allPosts.forEach { postId, postMetaData in
-          guard let postMetaData = postMetaData as? [String: Any] else { return }
-          var post = Post(user: user, postDic: postMetaData)
+          guard var post = Post(user: user, postDic: postMetaData) else { return }
           post.id = postId
           print("post image url: \(post.imageUrl)")
           
@@ -204,12 +224,45 @@ enum InstagramFirebaseService {
   static func fetchOrderedPosts(byChild child: String, user: User, completion: @escaping (Post) -> Void) {
     let postRef = DatabaseChild.posts(uid: user.uid, needPostId: false).path
     postRef.queryOrdered(byChild: child).observe(.childAdded, with: { (snapshot) in
-      guard let postDic = snapshot.value as? [String: Any] else { return }
-      let post = Post(user: user, postDic: postDic)
+      guard let post = Post(user: user, postDic: snapshot.value) else { return }
       completion(post)
     }) { (error) in
       print("user profile fetch posts error: \(error)")
     }
+  }
+  
+  static func paginatePosts(
+    user: User,
+    startingAt startChild: String?,
+    nextPostHandler: @escaping (Post) -> Void,
+    completion: @escaping (Bool) -> Void) {
+    let ref = DatabaseChild.posts(uid: user.uid).path
+    var query = ref.queryOrderedByKey()
+    if let startChild = startChild {
+      query = query.queryStarting(atValue: startChild)
+    }
+    query = query.queryLimited(toFirst: 4)
+    
+    query.observeSingleEvent(of: .value, with: { (snapshot) in
+      guard var allObjects = snapshot.children.allObjects as? [DataSnapshot] else { return }
+      // if allObject.count < 4, means no more post to fetch, if == 4, at least one post will
+      // be fetched.
+      let isFinishedLoading = allObjects.count < 4
+      // if startChild not nil, means in the middle of loading, cause this time use the posts last
+      // one to start query, so need to remove the first one.
+      if startChild != nil {
+        allObjects.removeFirst()
+      }
+      allObjects.forEach { (snapshot) in
+        guard var post = Post(user: user, postDic: snapshot.value) else { return }
+        post.id = snapshot.key
+        nextPostHandler(post)
+      }
+      completion(isFinishedLoading)
+    }) { (error) in
+      print(error)
+    }
+    
   }
   
   static func createUser(

@@ -125,7 +125,7 @@ class PhotoSelectorController: UICollectionViewController {
     guard selectedIndex != indexPath.item else { return }
     selectedIndex = indexPath.item
     collectionView.reloadData()
-    collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+    collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
   }
   
 }

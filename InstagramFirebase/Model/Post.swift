@@ -16,7 +16,8 @@ struct Post {
   let creationDate: Date
   var isLiking: Bool = false
   
-  init(user: User?, postDic: [String: Any]) {
+  init?(user: User?, postDic: Any?) {
+    guard let postDic = postDic as? [String: Any] else { return nil }
     self.user = user
     self.imageUrl = postDic["imageUrl"] as? String ?? ""
     self.caption = postDic["caption"] as? String ?? ""

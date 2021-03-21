@@ -52,13 +52,27 @@ class UserProfileController: UICollectionViewController {
         self.user = user
         self.navigationItem.title = self.user?.username
         self.collectionView.reloadData()
-        self.fetchUserPosts(forUser: user)
+        self.paginatePosts()
       }
     }
   }
   
-  private func fetchUserPosts(forUser user: User) {
-    InstagramFirebaseService.fetchOrderedPosts(byChild: "creationDate", user: user) { (post) in
+  var isFinishedLoading = false
+  
+  private func paginatePosts() {
+    InstagramFirebaseService.paginatePosts(
+      user: user!,
+      startingAt: posts.count > 0 ? posts.last?.id : nil,
+      nextPostHandler: { (post) in
+        self.posts.append(post)
+    }) { isFinishedLoading in
+      self.isFinishedLoading = isFinishedLoading
+      self.collectionView.reloadData()
+    }
+  }
+  
+  private func fetchUserPosts() {
+    InstagramFirebaseService.fetchOrderedPosts(byChild: "creationDate", user: user!) { (post) in
       DispatchQueue.main.async {
         self.posts.append(post)
         self.collectionView.insertItems(at: [IndexPath(item: 0, section: 0)])
@@ -101,7 +115,10 @@ class UserProfileController: UICollectionViewController {
     return posts.count
   }
   
-  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+    if indexPath.item == posts.count - 1 && !isFinishedLoading {
+      paginatePosts()
+    }
     if isGridLayout {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellID.userProfileCell, for: indexPath) as! UserProfileCell
       cell.post = postForItem(indexPath.item)
