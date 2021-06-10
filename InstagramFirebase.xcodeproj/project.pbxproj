@@ -51,7 +51,6 @@
 		DC88672E25F879E900C92257 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672D25F879E900C92257 /* PhotoSelectorController.swift */; };
 		DC88673025F8A03A00C92257 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */; };
 		DC9D2A4E25F4FE7700AA4AAA /* UIColor+colorConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9D2A4D25F4FE7700AA4AAA /* UIColor+colorConstructor.swift */; };
-		DCBE223225F670A2000E3A4F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DCBE223125F670A2000E3A4F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,7 +102,6 @@
 		DC88672D25F879E900C92257 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		DC88672F25F8A03A00C92257 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		DC9D2A4D25F4FE7700AA4AAA /* UIColor+colorConstructor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colorConstructor.swift"; sourceTree = "<group>"; };
-		DCBE223125F670A2000E3A4F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,7 +197,6 @@
 				DC168C5525F3D25600D9E1D4 /* Extensions */,
 				DC168C5425F3C57900D9E1D4 /* Supporting files */,
 				DC168C4E25F3C56800D9E1D4 /* Info.plist */,
-				DCBE223125F670A2000E3A4F /* GoogleService-Info.plist */,
 			);
 			path = InstagramFirebase;
 			sourceTree = "<group>";
@@ -373,7 +370,6 @@
 				DC168C4A25F3C56800D9E1D4 /* Assets.xcassets in Resources */,
 				DC5BB5F826033496003CCE68 /* CameraController.xib in Resources */,
 				DC766B5425FA47970051EA14 /* HomeCell.xib in Resources */,
-				DCBE223225F670A2000E3A4F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
